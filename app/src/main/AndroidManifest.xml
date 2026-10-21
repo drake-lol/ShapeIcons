@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Launchers must hold this to read icons from the provider (normal level: granted at install, no prompt). -->
+    <permission android:name="lol.drake.shapeicons.permission.READ_ICONS" android:protectionLevel="normal"/>
+
+    <!-- lets the renderer fetch the app icon of installed launchable apps that the pack has no glyph for -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN"/>
+            <category android:name="android.intent.category.LAUNCHER"/>
+        </intent>
+    </queries>
+
+    <application android:label="Shape Icons" android:icon="@drawable/icon_pack" android:allowBackup="false">
+        <activity android:name=".MainActivity" android:exported="true" android:theme="@android:style/Theme.Material.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <!-- Dynamic path: launchers that know this scheme query icons here and re-query on ICON_PACK_CHANGED / provider notify. -->
+        <provider
+            android:name=".DynamicIconProvider"
+            android:authorities="lol.drake.shapeicons.provider"
+            android:exported="true"
+            android:readPermission="lol.drake.shapeicons.permission.READ_ICONS"/>
+
+        <!-- Static fallback: makes ordinary launchers (Nova, Lawnchair, ...) list this APK as an icon pack and read res/xml/appfilter.xml. -->
+        <activity-alias android:name=".IconPack" android:targetActivity=".MainActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="org.adw.launcher.THEMES"/>
+                <action android:name="com.novalauncher.THEME"/>
+                <action android:name="com.anddoes.launcher.THEME"/>
+                <action android:name="com.gau.go.launcherex.theme"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity-alias>
+    </application>
+</manifest>

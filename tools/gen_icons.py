@@ -1,0 +1,150 @@
+#!/usr/bin/env python3
+"""Generates every resource of the icon pack (run from anywhere: python3 tools/gen_icons.py).
+
+  src/main/res/drawable/shape_<name>.xml  background shapes (108x108 vectors) the DynamicIconProvider picks from at runtime
+  src/main/res/drawable/shape_bg.xml      static fallback shape (copy of DEFAULT_SHAPE) used by icon_* and appfilter.xml
+  src/main/res/drawable/fg_*.xml          foreground glyphs (stroke icons on a 24 grid, centered in 108x108)
+  src/main/res/drawable/icon_*.xml        layer-list = @drawable/shape_bg + @drawable/fg_*   (what launchers show)
+  src/main/res/xml/appfilter.xml          component -> icon_* mapping, plus shape_bg as iconback/iconmask for the rest
+  src/main/res/xml/drawable.xml           list of icons for the launcher's icon picker (and the demo grid)
+
+Edit GLYPHS / APPS / SHAPES, rerun, rebuild. Nothing else needs touching.
+"""
+import math, pathlib
+
+RES = pathlib.Path(__file__).resolve().parent.parent / "app/src"
+C, R = 54.0, 48.0          # canvas center / shape radius (canvas is 108)
+BG_FILL = "#232733"
+
+# ---------- background shapes (all centered at C, fit in radius ~R) -------------------------------------------------
+def poly(pts):
+    return "M" + " L".join(f"{x:.2f},{y:.2f}" for x, y in pts) + "Z"
+
+def circle():
+    return f"M{C-R},{C} a{R},{R} 0 1,0 {2*R},0 a{R},{R} 0 1,0 {-2*R},0Z"
+
+def squircle(n=4.2, steps=160):
+    pts = []
+    for i in range(steps):
+        t = 2 * math.pi * i / steps
+        c, s = math.cos(t), math.sin(t)
+        pts.append((C + R * math.copysign(abs(c) ** (2 / n), c), C + R * math.copysign(abs(s) ** (2 / n), s)))
+    return poly(pts)
+
+def flower(petals=8, a=6.0, steps=320):
+    return poly([(C + (R - a + a * math.cos(petals * t)) * math.cos(t), C + (R - a + a * math.cos(petals * t)) * math.sin(t))
+                 for t in (2 * math.pi * i / steps for i in range(steps))])
+
+def rounded_polygon(n, radius, rot):
+    corners = [(C + radius * math.cos(rot + 2 * math.pi * k / n), C + radius * math.sin(rot + 2 * math.pi * k / n)) for k in range(n)]
+    mids = [((corners[k][0] + corners[(k + 1) % n][0]) / 2, (corners[k][1] + corners[(k + 1) % n][1]) / 2) for k in range(n)]
+    d = f"M{mids[-1][0]:.2f},{mids[-1][1]:.2f}"
+    for k in range(n):
+        d += f" Q{corners[k][0]:.2f},{corners[k][1]:.2f} {mids[k][0]:.2f},{mids[k][1]:.2f}"
+    return d + "Z"
+
+SHAPES = {
+    "circle": circle(),
+    "squircle": squircle(),
+    "flower": flower(),
+    "hexagon": rounded_polygon(6, 53, -math.pi / 2),
+    "diamond": rounded_polygon(4, 56, -math.pi / 2),
+}
+
+# ---------- foreground glyphs: (color, [(path, kind)]) on a 24x24 grid; kind: s = stroke, f = fill, d = dot -----------
+def circ(cx, cy, r):
+    return f"M{cx-r},{cy} a{r},{r} 0 1,0 {2*r},0 a{r},{r} 0 1,0 {-2*r},0"
+
+GLYPHS = {
+    "phone":    ("#5BE3A0", [(f"M{x},{y}h0.01", "d") for x in (7, 12, 17) for y in (6, 10.5, 15, 19.5)]),
+    "messages": ("#6CB4FF", [("M4,5h16v11H9l-5,4z", "s"), ("M8.5,10.5h0.01M12,10.5h0.01M15.5,10.5h0.01", "d")]),
+    "camera":   ("#FF7A8A", [("M3,8h4l2,-3h6l2,3h4v11H3z", "s"), (circ(12, 13, 3.5), "s")]),
+    "gallery":  ("#FFC857", [("M4,4h16v16H4z", "s"), ("M4,17l5,-6l4,4l3,-3l4,5", "s"), (circ(16, 8.5, 1.4), "s")]),
+    "browser":  ("#7DD3FC", [(circ(12, 12, 9), "s"), ("M3,12h18", "s"), ("M12,3c3.5,3.5 3.5,14.5 0,18c-3.5,-3.5 -3.5,-14.5 0,-18", "s")]),
+    "music":    ("#C4A1FF", [("M9,17V6l10,-2v11", "s"), (circ(7, 17.5, 2.2), "s"), (circ(17, 15.5, 2.2), "s")]),
+    "mail":     ("#FF9E7A", [("M3,6h18v12H3z", "s"), ("M3,7l9,7l9,-7", "s")]),
+    "calendar": ("#FF6B6B", [("M4,6h16v14H4z", "s"), ("M4,10.5h16", "s"), ("M8,3v4M16,3v4", "s"), ("M8,14h0.01M12,14h0.01M16,14h0.01M8,17h0.01M12,17h0.01", "d")]),
+    "clock":    ("#FFD166", [(circ(12, 12, 9), "s"), ("M12,7v5l3.5,2", "s")]),
+    "settings": ("#B8C0CC", [(circ(12, 12, 3), "s"), (circ(12, 12, 7), "s")] +
+                 [(f"M{12+7*math.cos(a):.2f},{12+7*math.sin(a):.2f}L{12+9.6*math.cos(a):.2f},{12+9.6*math.sin(a):.2f}", "s")
+                  for a in (k * math.pi / 4 for k in range(8))]),
+    "maps":     ("#5BE3A0", [("M12,21c-4.5,-5.5 -6.5,-8.5 -6.5,-11.5a6.5,6.5 0 0,1 13,0c0,3 -2,6 -6.5,11.5z", "s"), (circ(12, 9.5, 2.2), "s")]),
+    "files":    ("#FFC857", [("M3,6h6l2,2.5h10V19H3z", "s")]),
+    "video":    ("#FF5D5D", [("M3,6h18v12H3z", "s"), ("M10,9.2l5,2.8l-5,2.8z", "f")]),
+    "store":    ("#6CB4FF", [("M5,8h14l-1,12H6z", "s"), ("M9,10V7.5a3,3 0 0,1 6,0V10", "s")]),
+    "contacts": ("#7DD3FC", [(circ(12, 8.5, 3.5), "s"), ("M5,20c0,-4.2 3,-6.2 7,-6.2s7,2 7,6.2", "s")]),
+    "calc":     ("#C4A1FF", [("M5,3h14v18H5z", "s"), ("M8,7.5h8", "s"), ("M8.5,12h0.01M12,12h0.01M15.5,12h0.01M8.5,16h0.01M12,16h0.01M15.5,16h0.01", "d")]),
+    "pack":     ("#FFFFFF", [(circ(8, 9, 3.6), "s"), ("M13,5.5h6.5v7H13z", "s"), ("M5,14.5l3.5,6l3.5,-6z", "s"), ("M15,16.5h0.01", "d")]),
+}
+
+# component -> glyph (well-known Google/AOSP launcher activities; extend freely)
+APPS = {
+    "phone": ["com.google.android.dialer/com.google.android.dialer.extensions.GoogleDialtactsActivity",
+              "com.google.android.dialer/com.google.android.apps.dialer.extensions.GoogleDialtactsActivity",
+              "com.android.dialer/com.android.dialer.main.impl.MainActivity"],
+    "messages": ["com.google.android.apps.messaging/com.google.android.apps.messaging.ui.ConversationListActivity"],
+    "camera": ["com.google.android.GoogleCamera/com.android.camera.CameraLauncher", "com.android.camera2/com.android.camera.CameraLauncher"],
+    "gallery": ["com.google.android.apps.photos/com.google.android.apps.photos.home.HomeActivity"],
+    "browser": ["com.android.chrome/com.google.android.apps.chrome.Main"],
+    "mail": ["com.google.android.gm/com.google.android.gm.ConversationListActivityGmail"],
+    "calendar": ["com.google.android.calendar/com.android.calendar.AllInOneActivity"],
+    "clock": ["com.google.android.deskclock/com.android.deskclock.DeskClock"],
+    "settings": ["com.android.settings/com.android.settings.Settings"],
+    "maps": ["com.google.android.apps.maps/com.google.android.maps.MapsActivity"],
+    "files": ["com.google.android.apps.nbu.files/com.google.android.apps.nbu.files.home.HomeActivity"],
+    "video": ["com.google.android.youtube/com.google.android.apps.youtube.app.WatchWhileActivity"],
+    "store": ["com.android.vending/com.android.vending.AssetBrowserActivity"],
+    "contacts": ["com.google.android.contacts/com.android.contacts.activities.PeopleActivity"],
+    "calc": ["com.google.android.calculator/com.android.calculator2.Calculator"],
+    "music": ["com.google.android.apps.youtube.music/com.google.android.apps.youtube.music.activities.MusicActivity"],
+}
+
+S = 2.25                                   # glyph scale: 24-unit grid -> 54 of 108
+OFF = C - 12 * S
+
+def write(path, text):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text)
+
+def vector(body):
+    return ('<?xml version="1.0" encoding="utf-8"?>\n'
+            '<vector xmlns:android="http://schemas.android.com/apk/res/android"\n'
+            '    android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">\n'
+            f'{body}</vector>\n')
+
+DEFAULT_SHAPE = "circle"
+for name, d in SHAPES.items():
+    v = vector(f'    <path android:fillColor="{BG_FILL}" android:pathData="{d}"/>\n')
+    write(RES / f"main/res/drawable/shape_{name}.xml", v)
+    if name == DEFAULT_SHAPE:
+        write(RES / "main/res/drawable/shape_bg.xml", v)
+
+for name, (color, parts) in GLYPHS.items():
+    body = f'    <group android:translateX="{OFF}" android:translateY="{OFF}" android:scaleX="{S}" android:scaleY="{S}">\n'
+    for d, kind in parts:
+        if kind == "f":
+            body += f'        <path android:fillColor="{color}" android:pathData="{d}"/>\n'
+        else:
+            w = 3.2 if kind == "d" else 1.7
+            body += (f'        <path android:strokeColor="{color}" android:strokeWidth="{w}" android:strokeLineCap="round" '
+                     f'android:strokeLineJoin="round" android:pathData="{d}"/>\n')
+    body += '    </group>\n'
+    write(RES / f"main/res/drawable/fg_{name}.xml", vector(body))
+    write(RES / f"main/res/drawable/icon_{name}.xml",
+          '<?xml version="1.0" encoding="utf-8"?>\n<layer-list xmlns:android="http://schemas.android.com/apk/res/android">\n'
+          '    <item android:drawable="@drawable/shape_bg"/>\n'
+          f'    <item android:drawable="@drawable/fg_{name}"/>\n</layer-list>\n')
+
+af = ['<?xml version="1.0" encoding="utf-8"?>', '<resources>',
+      '    <!-- apps without an entry below: their own icon, scaled, on the pack\'s shape (shape_bg = the swappable asset) -->',
+      '    <iconback img1="shape_bg"/>', '    <iconmask img1="shape_bg"/>', '    <scale factor="0.55"/>']
+for g, comps in APPS.items():
+    for c in comps:
+        af.append(f'    <item component="ComponentInfo{{{c}}}" drawable="icon_{g}"/>')
+af.append('</resources>')
+write(RES / "main/res/xml/appfilter.xml", "\n".join(af) + "\n")
+
+icons = [n for n in GLYPHS if n != "pack"]
+write(RES / "main/res/xml/drawable.xml", '<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <category title="All"/>\n' +
+      "".join(f'    <item drawable="icon_{n}"/>\n' for n in icons) + '</resources>\n')
+print(f"{len(SHAPES)} shapes, {len(GLYPHS)} glyphs, {sum(map(len, APPS.values()))} component mappings")

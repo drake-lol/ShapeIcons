@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <category title="All"/>
+    <item drawable="icon_phone"/>
+    <item drawable="icon_messages"/>
+    <item drawable="icon_camera"/>
+    <item drawable="icon_gallery"/>
+    <item drawable="icon_browser"/>
+    <item drawable="icon_music"/>
+    <item drawable="icon_mail"/>
+    <item drawable="icon_calendar"/>
+    <item drawable="icon_clock"/>
+    <item drawable="icon_settings"/>
+    <item drawable="icon_maps"/>
+    <item drawable="icon_files"/>
+    <item drawable="icon_video"/>
+    <item drawable="icon_store"/>
+    <item drawable="icon_contacts"/>
+    <item drawable="icon_calc"/>
+</resources>
