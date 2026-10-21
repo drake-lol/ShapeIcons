@@ -176,6 +176,8 @@ def render_png(name, color, parts, out_path, px=192):
 for name, (color, parts) in icon_svgs.items():
     render_png(name, color, parts, RES / f"main/res/drawable-nodpi/icon_{name}.png")
 
+write(RES / "main/res/values/shape.xml",
+      f'<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <string name="baked_shape">{DEFAULT_SHAPE}</string>\n</resources>\n')
 write(RES / "main/res/values/colors.xml",
       f'<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <color name="icon_bg">{BG_FILL}</color>\n</resources>\n')
 

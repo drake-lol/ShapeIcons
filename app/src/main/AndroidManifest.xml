@@ -6,6 +6,15 @@
     <!-- lets the renderer fetch the app icon of installed launchable apps that the pack has no glyph for -->
     <queries>
         <intent><action android:name="app.lawnchair.APPLY_ICONS"/></intent>
+        <package android:name="ginlemon.flowerfree"/>
+        <package android:name="app.lawnchair"/>
+        <package android:name="app.lawnchair.nightly"/>
+        <package android:name="app.lawnchair.debug"/>
+        <package android:name="com.teslacoilsw.launcher"/>
+        <package android:name="com.anddoes.launcher"/>
+        <package android:name="org.adw.launcher"/>
+        <package android:name="org.adw.launcher.one"/>
+        <package android:name="com.samsung.android.themedesigner"/>
         <intent>
             <action android:name="android.intent.action.MAIN"/>
             <category android:name="android.intent.category.LAUNCHER"/>

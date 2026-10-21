@@ -56,14 +56,10 @@ public class MainActivity extends Activity {
         for (int i = 0; i < IconPrefs.SIZE_NAMES.length; i++) { final int sz = i; sizes.addView(chip(IconPrefs.SIZE_NAMES[i], sizeButtons, () -> choose(prefs.shape(), sz))); }
         root.addView(sizes);
 
-        final Intent lawnchair = new Intent("app.lawnchair.APPLY_ICONS").putExtra("packageName", getPackageName());
-        if (lawnchair.resolveActivity(getPackageManager()) != null) {
-            Button apply = new Button(this);
-            apply.setText("Apply in Lawnchair");
-            apply.setAllCaps(false);
-            apply.setOnClickListener(v -> startActivity(lawnchair));
-            root.addView(apply);
-        }
+        root.addView(text("Apply to a launcher", 16, 0xFFFFFFFF, true));
+        root.addView(text("Smart Launcher updates live when you change the shape above. The others show the shape built into the "
+                + "pack (" + getString(R.string.baked_shape) + "); change it with tools/apply_shape.sh <shape> on a PC.", 12, 0xFF6B7385, false));
+        for (final Launcher l : launchers()) root.addView(applyButton(l));
 
         grid = new GridLayout(this);
         grid.setColumnCount(4);
@@ -76,6 +72,66 @@ public class MainActivity extends Activity {
         sv.addView(root);
         setContentView(sv);
         refresh();
+    }
+
+    /** One entry per supported launcher: installed if any package is present, applied by the intent it understands. */
+    private static final class Launcher {
+        final String name; final String[] packages; final Intent intent; final String hint;
+        Launcher(String name, String[] packages, Intent intent, String hint) { this.name = name; this.packages = packages; this.intent = intent; this.hint = hint; }
+    }
+
+    private List<Launcher> launchers() {
+        String me = getPackageName();
+        List<Launcher> l = new ArrayList<>();
+        l.add(new Launcher("Smart Launcher", new String[]{"ginlemon.flowerfree"},
+                new Intent("ginlemon.smartlauncher.setGSLTHEME").putExtra("package", me).setPackage("ginlemon.flowerfree"), "live shape"));
+        l.add(new Launcher("Lawnchair", new String[]{"app.lawnchair", "app.lawnchair.nightly", "app.lawnchair.debug"},
+                new Intent("app.lawnchair.APPLY_ICONS").putExtra("packageName", me), "built-in shape"));
+        l.add(new Launcher("Nova Launcher", new String[]{"com.teslacoilsw.launcher"},
+                new Intent("com.teslacoilsw.launcher.APPLY_ICON_THEME").setPackage("com.teslacoilsw.launcher")
+                        .putExtra("com.teslacoilsw.launcher.extra.ICON_THEME_TYPE", "GRID")
+                        .putExtra("com.teslacoilsw.launcher.extra.ICON_THEME_PACKAGE", me), "built-in shape"));
+        l.add(new Launcher("Apex Launcher", new String[]{"com.anddoes.launcher"},
+                new Intent("com.anddoes.launcher.SET_THEME").setPackage("com.anddoes.launcher")
+                        .putExtra("com.anddoes.launcher.THEME_PACKAGE_NAME", me), "built-in shape"));
+        l.add(new Launcher("ADW Launcher", new String[]{"org.adw.launcher", "org.adw.launcher.one"},
+                new Intent("org.adw.launcher.SET_THEME").putExtra("org.adw.launcher.theme.NAME", me), "built-in shape"));
+        l.add(new Launcher("One UI (Theme Park)", new String[]{"com.samsung.android.themedesigner"},
+                getPackageManager().getLaunchIntentForPackage("com.samsung.android.themedesigner"), "pick it under Icon pack"));
+        return l;
+    }
+
+    private String installedPackage(Launcher l) {
+        for (String p : l.packages) {
+            try { getPackageManager().getPackageInfo(p, 0); return p; } catch (Exception ignored) { }
+        }
+        return null;
+    }
+
+    private Button applyButton(final Launcher l) {
+        final String pkg = installedPackage(l);
+        Button bt = new Button(this);
+        bt.setAllCaps(false);
+        bt.setText(pkg == null ? l.name + "  (not installed)" : l.name + "  \u00b7  " + l.hint);
+        bt.setEnabled(pkg != null && l.intent != null);
+        bt.setTextColor(pkg == null ? 0xFF6B7385 : 0xFFE5E9F0);
+        GradientDrawable g = new GradientDrawable();
+        g.setCornerRadius(dp(22));
+        g.setColor(pkg == null ? 0xFF1A1D26 : 0xFF232733);
+        bt.setBackground(g);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, dp(48));
+        lp.topMargin = dp(8);
+        bt.setLayoutParams(lp);
+        bt.setOnClickListener(v -> {
+            try {
+                Intent i = new Intent(l.intent);
+                if (i.getPackage() == null && i.getComponent() == null && !i.getAction().equals(Intent.ACTION_MAIN)) i.setPackage(pkg);
+                startActivity(i);
+            } catch (Exception e) {
+                android.widget.Toast.makeText(this, l.name + " could not be opened", android.widget.Toast.LENGTH_SHORT).show();
+            }
+        });
+        return bt;
     }
 
     private void choose(String shape, int size) {
