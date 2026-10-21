@@ -168,7 +168,7 @@ def render_png(name, color, parts, out_path, px=192):
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile("w", suffix=".svg", delete=False) as f:
         f.write(svg)
-    subprocess.run(["magick", "-background", "none", "-density", str(72 * px // 108 * 4), f.name, "-resize", f"{px}x{px}", str(out_path)], check=True)
+    subprocess.run(["magick", "-background", "none", "-density", str(72 * px // 108 * 4), f.name, "-trim", "+repage", "-resize", f"{px}x{px}", "-gravity", "center", "-background", "none", "-extent", f"{px}x{px}", str(out_path)], check=True)   # trim: shape fills the bitmap
 
 for name, (color, parts) in icon_svgs.items():
     render_png(name, color, parts, RES / f"main/res/drawable-nodpi/icon_{name}.png")
