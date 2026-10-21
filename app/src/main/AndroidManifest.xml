@@ -5,6 +5,7 @@
 
     <!-- lets the renderer fetch the app icon of installed launchable apps that the pack has no glyph for -->
     <queries>
+        <intent><action android:name="app.lawnchair.APPLY_ICONS"/></intent>
         <intent>
             <action android:name="android.intent.action.MAIN"/>
             <category android:name="android.intent.category.LAUNCHER"/>
@@ -49,14 +50,34 @@
             </intent-filter>
         </receiver>
 
-        <!-- Static fallback: makes ordinary launchers (Nova, Lawnchair, ...) list this APK as an icon pack and read res/xml/appfilter.xml. -->
+        <!-- Static fallback: makes ordinary launchers list this APK as an icon pack and read res/xml/appfilter.xml.
+             One filter per discovery convention, mirroring Lawnicons (which Lawnchair, Nova, Apex, ADW, Go, Atom accept). -->
         <activity-alias android:name=".IconPack" android:targetActivity=".MainActivity" android:exported="true">
-            <intent-filter>
+            <intent-filter>   <!-- ADW; Theme Park on One UI -->
                 <action android:name="org.adw.launcher.THEMES"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>   <!-- Nova; Lawnchair -->
                 <action android:name="com.novalauncher.THEME"/>
+                <category android:name="com.novalauncher.category.CUSTOM_ICON_PICKER"/>
+            </intent-filter>
+            <intent-filter>   <!-- Nova, plain action form -->
+                <action android:name="com.novalauncher.THEME"/>
+            </intent-filter>
+            <intent-filter>   <!-- Apex; Lawnchair -->
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="com.anddoes.launcher.THEME"/>
+            </intent-filter>
+            <intent-filter>
                 <action android:name="com.anddoes.launcher.THEME"/>
+            </intent-filter>
+            <intent-filter>   <!-- GO Launcher -->
+                <action android:name="android.intent.action.MAIN"/>
                 <action android:name="com.gau.go.launcherex.theme"/>
                 <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>   <!-- Atom -->
+                <action android:name="com.dlto.atom.launcher.THEME"/>
             </intent-filter>
         </activity-alias>
     </application>

@@ -1,0 +1,26 @@
+# Lawnchair
+
+Analysed Lawnchair `16-dev` nightly #5303 (commit `eba9492`, `app.lawnchair.nightly`), downloaded from the official GitHub
+release. The APK is R8-minified, so the logic below comes from the open-source tree at that commit.
+
+## How it loads an icon pack
+- Discovery (`iconPackIntents`): `com.novalauncher.THEME`, MAIN + category `com.anddoes.launcher.THEME`,
+  `com.dlto.atom.launcher.THEME`. Plain `org.adw.launcher.THEMES` is *not* used.
+- `CustomIconPack` (app.lawnchair.icons.iconpack): parses `res/xml/appfilter` or `assets/appfilter.xml`
+  (`item`, `calendar prefix=`, `dynamic-clock`), picker list from `res/xml/drawable`. Icons come from
+  `Resources.getDrawableForDensity` of the pack package.
+- `IconPackProvider` caches each pack for the life of the process; the only live refresh is a preference change, plus a
+  package-change receiver that watches only the *themed-icon* source pack. There is no provider/broadcast hook like
+  Smart Launcher's, so the dynamic shape/size switch cannot reach Lawnchair without a fork.
+- Apply deep link: activity `app.lawnchair.ui.ApplyIconPackActivity`, action `app.lawnchair.APPLY_ICONS`, string extra
+  `packageName`. Shows a confirm sheet and sets the icon pack preference.
+
+## What changed here
+- The `IconPack` alias now declares one filter per convention, mirroring Lawnicons, so the pack is listed in Lawnchair's
+  icon pack picker (checked with `cmd package query-activities`).
+- Dashboard shows "Apply in Lawnchair" when Lawnchair is installed (uses `APPLY_ICONS`).
+
+## Not verified
+Lawnchair was analysed, not installed. How it re-masks the pack's layer-list drawables (versus its own
+Settings > Icon shape) is untested. Lawnchair has its own native shape picker, so a build with adaptive-icon
+drawables might be the better fit there.

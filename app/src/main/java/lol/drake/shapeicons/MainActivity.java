@@ -2,6 +2,7 @@ package lol.drake.shapeicons;
 
 import android.app.Activity;
 import android.content.res.XmlResourceParser;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -54,6 +55,15 @@ public class MainActivity extends Activity {
         LinearLayout sizes = row();
         for (int i = 0; i < IconPrefs.SIZE_NAMES.length; i++) { final int sz = i; sizes.addView(chip(IconPrefs.SIZE_NAMES[i], sizeButtons, () -> choose(prefs.shape(), sz))); }
         root.addView(sizes);
+
+        final Intent lawnchair = new Intent("app.lawnchair.APPLY_ICONS").putExtra("packageName", getPackageName());
+        if (lawnchair.resolveActivity(getPackageManager()) != null) {
+            Button apply = new Button(this);
+            apply.setText("Apply in Lawnchair");
+            apply.setAllCaps(false);
+            apply.setOnClickListener(v -> startActivity(lawnchair));
+            root.addView(apply);
+        }
 
         grid = new GridLayout(this);
         grid.setColumnCount(4);
