@@ -37,20 +37,23 @@ def flower(petals=8, a=6.0, steps=320):
     return poly([(C + (R - a + a * math.cos(petals * t)) * math.cos(t), C + (R - a + a * math.cos(petals * t)) * math.sin(t))
                  for t in (2 * math.pi * i / steps for i in range(steps))])
 
-def rounded_polygon(n, radius, rot):
-    corners = [(C + radius * math.cos(rot + 2 * math.pi * k / n), C + radius * math.sin(rot + 2 * math.pi * k / n)) for k in range(n)]
-    mids = [((corners[k][0] + corners[(k + 1) % n][0]) / 2, (corners[k][1] + corners[(k + 1) % n][1]) / 2) for k in range(n)]
-    d = f"M{mids[-1][0]:.2f},{mids[-1][1]:.2f}"
-    for k in range(n):
-        d += f" Q{corners[k][0]:.2f},{corners[k][1]:.2f} {mids[k][0]:.2f},{mids[k][1]:.2f}"
+def rounded_polygon(n, radius, rot, k=0.26):
+    """Polygon whose corners are rounded over a fraction k of each edge (k=0.5 would round all the way to the midpoints)."""
+    c = [(C + radius * math.cos(rot + 2 * math.pi * i / n), C + radius * math.sin(rot + 2 * math.pi * i / n)) for i in range(n)]
+    def toward(a, b): return (a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k)
+    d = ""
+    for i in range(n):
+        enter, leave = toward(c[i], c[i - 1]), toward(c[i], c[(i + 1) % n])
+        d += (f"M{enter[0]:.2f},{enter[1]:.2f}" if i == 0 else f" L{enter[0]:.2f},{enter[1]:.2f}")
+        d += f" Q{c[i][0]:.2f},{c[i][1]:.2f} {leave[0]:.2f},{leave[1]:.2f}"
     return d + "Z"
 
 SHAPES = {
     "circle": circle(),
     "squircle": squircle(),
     "flower": flower(),
-    "hexagon": rounded_polygon(6, 53, -math.pi / 2),
-    "diamond": rounded_polygon(4, 56, -math.pi / 2),
+    "hexagon": rounded_polygon(6, 52, -math.pi / 2),
+    "diamond": rounded_polygon(4, 54, -math.pi / 2, 0.22),
 }
 
 # ---------- foreground glyphs: (color, [(path, kind)]) on a 24x24 grid; kind: s = stroke, f = fill, d = dot -----------
