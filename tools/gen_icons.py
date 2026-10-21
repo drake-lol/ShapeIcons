@@ -79,6 +79,7 @@ GLYPHS = {
     "store":    ("#6CB4FF", [("M5,8h14l-1,12H6z", "s"), ("M9,10V7.5a3,3 0 0,1 6,0V10", "s")]),
     "contacts": ("#7DD3FC", [(circ(12, 8.5, 3.5), "s"), ("M5,20c0,-4.2 3,-6.2 7,-6.2s7,2 7,6.2", "s")]),
     "calc":     ("#C4A1FF", [("M5,3h14v18H5z", "s"), ("M8,7.5h8", "s"), ("M8.5,12h0.01M12,12h0.01M15.5,12h0.01M8.5,16h0.01M12,16h0.01M15.5,16h0.01", "d")]),
+    "star":     ("#FFD166", [("M12,3.2l2.7,5.6l6.1,0.8l-4.5,4.3l1.1,6.1L12,17.1l-5.4,2.9l1.1,-6.1L3.2,9.6l6.1,-0.8z", "s")]),
     "pack":     ("#FFFFFF", [(circ(8, 9, 3.6), "s"), ("M13,5.5h6.5v7H13z", "s"), ("M5,14.5l3.5,6l3.5,-6z", "s"), ("M15,16.5h0.01", "d")]),
 }
 
@@ -99,9 +100,10 @@ APPS = {
              "com.samsung.android.email.provider/com.samsung.android.email.ui.messagelist.MessageListActivity"],  # One UI, unverified
     "calendar": ["com.google.android.calendar/com.android.calendar.AllInOneActivity",
                  "com.samsung.android.calendar/com.samsung.android.app.calendar.activity.MainActivity"],       # One UI, unverified
-    "clock": ["com.google.android.deskclock/com.android.deskclock.DeskClock",
+    "clock": ["com.google.android.deskclock/com.android.deskclock.DeskClock", "bitpit.launcher/bitpit.launcher.RecentlyInstalled",
               "com.sec.android.app.clockpackage/com.sec.android.app.clockpackage.ClockPackage"],              # One UI, unverified
-    "settings": ["com.android.settings/com.android.settings.Settings"],
+    "settings": ["com.android.settings/com.android.settings.Settings",
+                 "bitpit.launcher/bitpit.launcher.Settings"],                                                   # Niagara's bottom buttons (documented)
     "maps": ["com.google.android.apps.maps/com.google.android.maps.MapsActivity"],
     "files": ["com.google.android.apps.nbu.files/com.google.android.apps.nbu.files.home.HomeActivity",
               "com.sec.android.app.myfiles/com.sec.android.app.myfiles.ui.MainActivity"],                     # My Files, verified
@@ -110,6 +112,7 @@ APPS = {
               "com.sec.android.app.samsungapps/com.sec.android.app.samsungapps.SamsungAppsMainActivity"],     # Galaxy Store, verified
     "contacts": ["com.google.android.contacts/com.android.contacts.activities.PeopleActivity",
                  "com.samsung.android.app.contacts/com.samsung.android.contacts.contactslist.PeopleActivity"], # One UI, unverified
+    "star": ["bitpit.launcher/bitpit.launcher.Pro"],                                                    # Niagara Pro button
     "calc": ["com.google.android.calculator/com.android.calculator2.Calculator",
              "com.sec.android.app.popupcalculator/com.sec.android.app.popupcalculator.Calculator"],           # One UI, unverified
     "music": ["com.google.android.apps.youtube.music/com.google.android.apps.youtube.music.activities.MusicActivity"],

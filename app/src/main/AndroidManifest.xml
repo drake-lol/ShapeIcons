@@ -11,6 +11,7 @@
         <package android:name="app.lawnchair.nightly"/>
         <package android:name="app.lawnchair.debug"/>
         <package android:name="com.teslacoilsw.launcher"/>
+        <package android:name="bitpit.launcher"/>
         <package android:name="com.anddoes.launcher"/>
         <package android:name="org.adw.launcher"/>
         <package android:name="org.adw.launcher.one"/>

@@ -21,8 +21,10 @@
     <item component="ComponentInfo{com.google.android.calendar/com.android.calendar.AllInOneActivity}" drawable="icon_calendar"/>
     <item component="ComponentInfo{com.samsung.android.calendar/com.samsung.android.app.calendar.activity.MainActivity}" drawable="icon_calendar"/>
     <item component="ComponentInfo{com.google.android.deskclock/com.android.deskclock.DeskClock}" drawable="icon_clock"/>
+    <item component="ComponentInfo{bitpit.launcher/bitpit.launcher.RecentlyInstalled}" drawable="icon_clock"/>
     <item component="ComponentInfo{com.sec.android.app.clockpackage/com.sec.android.app.clockpackage.ClockPackage}" drawable="icon_clock"/>
     <item component="ComponentInfo{com.android.settings/com.android.settings.Settings}" drawable="icon_settings"/>
+    <item component="ComponentInfo{bitpit.launcher/bitpit.launcher.Settings}" drawable="icon_settings"/>
     <item component="ComponentInfo{com.google.android.apps.maps/com.google.android.maps.MapsActivity}" drawable="icon_maps"/>
     <item component="ComponentInfo{com.google.android.apps.nbu.files/com.google.android.apps.nbu.files.home.HomeActivity}" drawable="icon_files"/>
     <item component="ComponentInfo{com.sec.android.app.myfiles/com.sec.android.app.myfiles.ui.MainActivity}" drawable="icon_files"/>
@@ -31,6 +33,7 @@
     <item component="ComponentInfo{com.sec.android.app.samsungapps/com.sec.android.app.samsungapps.SamsungAppsMainActivity}" drawable="icon_store"/>
     <item component="ComponentInfo{com.google.android.contacts/com.android.contacts.activities.PeopleActivity}" drawable="icon_contacts"/>
     <item component="ComponentInfo{com.samsung.android.app.contacts/com.samsung.android.contacts.contactslist.PeopleActivity}" drawable="icon_contacts"/>
+    <item component="ComponentInfo{bitpit.launcher/bitpit.launcher.Pro}" drawable="icon_star"/>
     <item component="ComponentInfo{com.google.android.calculator/com.android.calculator2.Calculator}" drawable="icon_calc"/>
     <item component="ComponentInfo{com.sec.android.app.popupcalculator/com.sec.android.app.popupcalculator.Calculator}" drawable="icon_calc"/>
     <item component="ComponentInfo{com.google.android.apps.youtube.music/com.google.android.apps.youtube.music.activities.MusicActivity}" drawable="icon_music"/>

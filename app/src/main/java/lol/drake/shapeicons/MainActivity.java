@@ -91,6 +91,8 @@ public class MainActivity extends Activity {
                 new Intent("com.teslacoilsw.launcher.APPLY_ICON_THEME").setPackage("com.teslacoilsw.launcher")
                         .putExtra("com.teslacoilsw.launcher.extra.ICON_THEME_TYPE", "GRID")
                         .putExtra("com.teslacoilsw.launcher.extra.ICON_THEME_PACKAGE", me), "built-in shape"));
+        l.add(new Launcher("Niagara Launcher", new String[]{"bitpit.launcher"},
+                new Intent("bitpit.launcher.APPLY_ICONS").setPackage("bitpit.launcher").putExtra("packageName", me), "built-in shape"));
         l.add(new Launcher("Apex Launcher", new String[]{"com.anddoes.launcher"},
                 new Intent("com.anddoes.launcher.SET_THEME").setPackage("com.anddoes.launcher")
                         .putExtra("com.anddoes.launcher.THEME_PACKAGE_NAME", me), "built-in shape"));

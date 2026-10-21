@@ -17,4 +17,5 @@
     <item drawable="icon_store"/>
     <item drawable="icon_contacts"/>
     <item drawable="icon_calc"/>
+    <item drawable="icon_star"/>
 </resources>
