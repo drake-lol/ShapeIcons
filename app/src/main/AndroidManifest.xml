@@ -26,6 +26,29 @@
             android:exported="true"
             android:readPermission="lol.drake.shapeicons.permission.READ_ICONS"/>
 
+        <!-- Smart Launcher's icon-generator contract: the authority MUST be "<package>.iconprovider". No permission:
+             Smart Launcher doesn't hold ours, and the provider only ever serves icons. -->
+        <provider
+            android:name=".IconGeneratorProvider"
+            android:authorities="lol.drake.shapeicons.iconprovider"
+            android:exported="true"/>
+
+        <!-- Makes Smart Launcher list this pack in its icon-pack picker (MAIN + its private ICONPROVIDER category). -->
+        <activity-alias android:name=".SmartLauncherPack" android:targetActivity=".MainActivity" android:exported="true"
+            android:label="Shape Icons (dynamic)">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="ginlemon.smartlauncher.ICONPROVIDER"/>
+            </intent-filter>
+        </activity-alias>
+
+        <receiver android:name=".AuthReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="ginlemon.icongenerator.igAuthorizedToUpdate"/>
+                <action android:name="ginlemon.icongenerator.igNotAuthorizedToUpdate"/>
+            </intent-filter>
+        </receiver>
+
         <!-- Static fallback: makes ordinary launchers (Nova, Lawnchair, ...) list this APK as an icon pack and read res/xml/appfilter.xml. -->
         <activity-alias android:name=".IconPack" android:targetActivity=".MainActivity" android:exported="true">
             <intent-filter>

@@ -37,6 +37,7 @@ public class DynamicIconProvider extends ContentProvider {
         new IconPrefs(c).set(shape, size);
         c.getContentResolver().notifyChange(BASE, null);
         c.sendBroadcast(new Intent(ACTION_CHANGED).putExtra("shape", shape).putExtra("size", size));  // implicit: reaches runtime receivers
+        IconGeneratorProvider.requestUpdate(c);                                                        // Smart Launcher handshake
     }
 
     @Override public boolean onCreate() { return true; }

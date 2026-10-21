@@ -17,18 +17,31 @@ final class IconRenderer {
 
     private IconRenderer() { }
 
+    /** Smart Launcher's "main action" ids (qm8 enum in its dex): dialer, music, browser, gallery, message, camera, email. */
+    private static final String[] ACTION_GLYPHS = {"fg_phone", "fg_music", "fg_browser", "fg_gallery", "fg_messages", "fg_camera", "fg_mail"};
+
     static Bitmap render(Context c, String pkg, String shape, float sizeScale, int px) {
-        Resources r = c.getResources();
+        return render(c, pkg, -1, null, shape, sizeScale, px);
+    }
+
+    /**
+     * @param action Smart Launcher main-action id, or -1
+     * @param input  the app's own icon as the launcher drew it (used when the pack has no glyph), or null
+     */
+    static Bitmap render(Context c, String pkg, int action, Bitmap input, String shape, float sizeScale, int px) {
         Bitmap bmp = Bitmap.createBitmap(px, px, Bitmap.Config.ARGB_8888);
         Canvas cv = new Canvas(bmp);
         draw(cv, drawable(c, "shape_" + shape), px, 1f);
-        String fg = glyphs(c).get(pkg);
+        String fg = pkg == null ? null : glyphs(c).get(pkg);
+        if (fg == null && action >= 0 && action < ACTION_GLYPHS.length) fg = ACTION_GLYPHS[action];
         if (fg != null) {
             draw(cv, drawable(c, fg), px, sizeScale);                      // our glyph, scaled by the size option
+        } else if (input != null) {                                           // not in the pack: the launcher's icon on the shape
+            draw(cv, new android.graphics.drawable.BitmapDrawable(c.getResources(), input), px, 0.5f * sizeScale);
         } else {
-            try {                                                             // not in the pack: the app's own icon on the shape
+            try {
                 draw(cv, c.getPackageManager().getApplicationIcon(pkg), px, 0.5f * sizeScale);
-            } catch (PackageManager.NameNotFoundException e) {
+            } catch (Exception e) {
                 return null;
             }
         }
