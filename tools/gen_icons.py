@@ -4,7 +4,9 @@
   src/main/res/drawable/shape_<name>.xml  background shapes (108x108 vectors) the DynamicIconProvider picks from at runtime
   src/main/res/drawable/shape_bg.xml      static fallback shape (copy of DEFAULT_SHAPE) used by icon_* and appfilter.xml
   src/main/res/drawable/fg_*.xml          foreground glyphs (stroke icons on a 24 grid, centered in 108x108)
-  src/main/res/drawable/icon_*.xml        layer-list = @drawable/shape_bg + @drawable/fg_*   (what launchers show)
+  src/main/res/drawable/icon_*.xml        layer-list = @drawable/shape_bg + @drawable/fg_*   (API < 26 only)
+  src/main/res/drawable-anydpi-v26/icon_*.xml  real adaptive icons (flat BG_FILL + glyph): launchers that mask adaptive icons
+                                          (Lawnchair, Nova, ...) apply THEIR shape setting instead of wrapping ours in a white shell
   src/main/res/xml/appfilter.xml          component -> icon_* mapping, plus shape_bg as iconback/iconmask for the rest
   src/main/res/xml/drawable.xml           list of icons for the launcher's icon picker (and the demo grid)
 
@@ -149,6 +151,14 @@ for name, (color, parts) in GLYPHS.items():
           '<?xml version="1.0" encoding="utf-8"?>\n<layer-list xmlns:android="http://schemas.android.com/apk/res/android">\n'
           '    <item android:drawable="@drawable/shape_bg"/>\n'
           f'    <item android:drawable="@drawable/fg_{name}"/>\n</layer-list>\n')
+
+    write(RES / f"main/res/drawable-anydpi-v26/icon_{name}.xml",
+          '<?xml version="1.0" encoding="utf-8"?>\n<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">\n'
+          '    <background android:drawable="@color/icon_bg"/>\n'
+          f'    <foreground><inset android:drawable="@drawable/fg_{name}" android:inset="10%"/></foreground>\n</adaptive-icon>\n')
+
+write(RES / "main/res/values/colors.xml",
+      f'<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <color name="icon_bg">{BG_FILL}</color>\n</resources>\n')
 
 af = ['<?xml version="1.0" encoding="utf-8"?>', '<resources>',
       '    <!-- apps without an entry below: their own icon, scaled, on the pack\'s shape (shape_bg = the swappable asset) -->',

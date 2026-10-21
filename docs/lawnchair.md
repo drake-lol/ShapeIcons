@@ -24,3 +24,10 @@ release. The APK is R8-minified, so the logic below comes from the open-source t
 Lawnchair was analysed, not installed. How it re-masks the pack's layer-list drawables (versus its own
 Settings > Icon shape) is untested. Lawnchair has its own native shape picker, so a build with adaptive-icon
 drawables might be the better fit there.
+
+## Update: white ring fix
+Plain layer-list icons are treated as legacy icons by Lawnchair (shrunk onto a white shell, then cut by its own shape).
+`drawable-anydpi-v26/icon_*.xml` are now real adaptive icons (flat dark background + glyph), so Lawnchair applies its own
+Settings > Icon shape. Lawnchair caches rendered icons keyed on the selected pack name only (`ip=<pack>` in
+`LawnchairIconProvider.getStateForApp`), so after the pack's drawables change, re-select the pack
+(System icons -> Shape Icons) to rebuild the cache.
