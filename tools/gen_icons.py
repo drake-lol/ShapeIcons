@@ -4,9 +4,9 @@
   src/main/res/drawable/shape_<name>.xml  background shapes (108x108 vectors) the DynamicIconProvider picks from at runtime
   src/main/res/drawable/shape_bg.xml      static fallback shape (copy of DEFAULT_SHAPE) used by icon_* and appfilter.xml
   src/main/res/drawable/fg_*.xml          foreground glyphs (stroke icons on a 24 grid, centered in 108x108)
-  src/main/res/drawable/icon_*.xml        layer-list = @drawable/shape_bg + @drawable/fg_*   (API < 26 only)
-  src/main/res/drawable-anydpi-v26/icon_*.xml  real adaptive icons (flat BG_FILL + glyph): launchers that mask adaptive icons
-                                          (Lawnchair, Nova, ...) apply THEIR shape setting instead of wrapping ours in a white shell
+  src/main/res/drawable-nodpi/icon_*.png  what static launchers show: bitmaps of the DEFAULT_SHAPE (--shape) with the glyph.
+                                          Bitmaps (not vectors / adaptive icons) so launchers such as Lawnchair draw them as-is and
+                                          ignore their own icon shape setting. Needs ImageMagick (`magick`) with librsvg.
   src/main/res/xml/appfilter.xml          component -> icon_* mapping, plus shape_bg as iconback/iconmask for the rest
   src/main/res/xml/drawable.xml           list of icons for the launcher's icon picker (and the demo grid)
 
@@ -126,10 +126,11 @@ def vector(body):
             f'{body}</vector>\n')
 
 ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-ap.add_argument("--shape", default="circle", choices=sorted(SHAPES),
+ap.add_argument("--shape", default="flower", choices=sorted(SHAPES),
                 help="shape baked into the STATIC fallback (appfilter.xml / icon_*). Theme Park and other snapshot-style "
                      "consumers can't use the dynamic providers, so this is the shape they get.")
 DEFAULT_SHAPE = ap.parse_args().shape
+icon_svgs = {}
 for name, d in SHAPES.items():
     v = vector(f'    <path android:fillColor="{BG_FILL}" android:pathData="{d}"/>\n')
     write(RES / f"main/res/drawable/shape_{name}.xml", v)
@@ -147,15 +148,30 @@ for name, (color, parts) in GLYPHS.items():
                      f'android:strokeLineJoin="round" android:pathData="{d}"/>\n')
     body += '    </group>\n'
     write(RES / f"main/res/drawable/fg_{name}.xml", vector(body))
-    write(RES / f"main/res/drawable/icon_{name}.xml",
-          '<?xml version="1.0" encoding="utf-8"?>\n<layer-list xmlns:android="http://schemas.android.com/apk/res/android">\n'
-          '    <item android:drawable="@drawable/shape_bg"/>\n'
-          f'    <item android:drawable="@drawable/fg_{name}"/>\n</layer-list>\n')
+    icon_svgs[name] = (color, parts)
 
-    write(RES / f"main/res/drawable-anydpi-v26/icon_{name}.xml",
-          '<?xml version="1.0" encoding="utf-8"?>\n<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">\n'
-          '    <background android:drawable="@color/icon_bg"/>\n'
-          f'    <foreground><inset android:drawable="@drawable/fg_{name}" android:inset="10%"/></foreground>\n</adaptive-icon>\n')
+import subprocess, tempfile
+
+def glyph_svg(color, parts):
+    body = f'<g transform="translate({OFF} {OFF}) scale({S})">'
+    for d, kind in parts:
+        if kind == "f":
+            body += f'<path fill="{color}" d="{d}"/>'
+        else:
+            w = 3.2 if kind == "d" else 1.7
+            body += f'<path fill="none" stroke="{color}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round" d="{d}"/>'
+    return body + "</g>"
+
+def render_png(name, color, parts, out_path, px=192):
+    svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="108" height="108">'
+           f'<path fill="{BG_FILL}" d="{SHAPES[DEFAULT_SHAPE]}"/>{glyph_svg(color, parts)}</svg>')
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile("w", suffix=".svg", delete=False) as f:
+        f.write(svg)
+    subprocess.run(["magick", "-background", "none", "-density", str(72 * px // 108 * 4), f.name, "-resize", f"{px}x{px}", str(out_path)], check=True)
+
+for name, (color, parts) in icon_svgs.items():
+    render_png(name, color, parts, RES / f"main/res/drawable-nodpi/icon_{name}.png")
 
 write(RES / "main/res/values/colors.xml",
       f'<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <color name="icon_bg">{BG_FILL}</color>\n</resources>\n')

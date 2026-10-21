@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
         root.setBackgroundColor(0xFF12141A);
 
         root.addView(text("Shape Icons", 28, 0xFFFFFFFF, true));
-        root.addView(text("Pick a shape. Smart Launcher updates live. Lawnchair, Nova and similar use their own Icon shape setting; Theme Park uses its own mask.", 14, 0xFF9AA3B2, false));
+        root.addView(text("Pick a shape. Smart Launcher updates live. Lawnchair, Nova, Theme Park etc. show the pack's built-in shape (flower; change with tools/gen_icons.py --shape and rebuild).", 14, 0xFF9AA3B2, false));
 
         root.addView(text("Shape", 16, 0xFFFFFFFF, true));
         LinearLayout shapes = row();
