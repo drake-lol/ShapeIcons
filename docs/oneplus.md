@@ -32,8 +32,12 @@ clipped to the pack's shape, saves the PNGs to `tools/auto_icons/` (git-ignored,
 `tools/gen_icons.py` then adds them to `appfilter.xml` and `drawable.xml` (category "Your apps"). 212 icons were baked from a
 OnePlus 13s and a Galaxy Z Fold7.
 
-Result on the OnePlus 13s (OxygenOS 16.1): the baked entries were **not** drawn. Even mapping an app (FX) to a glyph
-that works for other apps changed nothing, and turning off `oplus_customize_use_optimized_app_icon_enabled` did not help
-(restored to 1 afterwards). So the stock launcher only applies the pack to some apps (Play Store, Photos, Chrome, YouTube,
-Phone, Camera, Gmail, Settings were confirmed); why it skips others is not understood. The baked icons are untested on
-Lawnchair/Nova.
+Result on the OnePlus 13s (OxygenOS 16.1): at first the baked entries were **not** drawn, even for an app mapped to a glyph
+that worked elsewhere. The cause (found by reading the system parser, `q8.d0` in `com.oplus.uxdesign`, and its
+`OplusIconPackUtil` log lines in logcat): OxygenOS/ColorOS first reads a Blueprint-style string array named `icon_pack`
+(or `theme_iconpack`) of package names written with underscores (`com_instagram_android`), each backed by a drawable of the
+same name, and only then `appfilter.xml`. Entries not in that array were not drawn. `tools/gen_icons.py` now writes
+`res/values/icon_pack.xml` (drawable aliases plus the array) for every glyph-mapped and baked app. Logcat then reported
+`getIconResMapFromXml final cache size: 895` and every app on the home screen drew in the pack's shape.
+
+Check what the launcher loaded: `adb logcat -d | grep OplusIconPackUtil`.

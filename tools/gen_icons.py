@@ -208,6 +208,27 @@ if auto_index:
     write(RES / "main/res/xml/appfilter.xml", af_text)
     print(f"{len(lines)} baked app icons added")
 
+# Blueprint-style package index (what OxygenOS/ColorOS's icon pack parser reads first): a string-array "icon_pack" of
+# package names written with underscores, each backed by a drawable of the same name (aliases here, no file copies).
+import re as _re
+pkg_target = {}
+for g, comps in APPS.items():
+    for comp in comps:
+        pkg_target.setdefault(comp.split("/")[0], f"icon_{g}")
+for key, name in sorted(auto_index.items()):
+    if (AUTO / f"{name}.png").exists():
+        pkg_target.setdefault(key.split("/")[0], name)
+alias_lines, array_lines = [], []
+for pkg, target in sorted(pkg_target.items()):
+    res_name = pkg.lower().replace(".", "_")
+    if _re.fullmatch(r"[a-z][a-z0-9_]*", res_name) and res_name != target:
+        alias_lines.append(f'    <item name="{res_name}" type="drawable">@drawable/{target}</item>')
+        array_lines.append(f"        <item>{res_name}</item>")
+write(RES / "main/res/values/icon_pack.xml",
+      '<?xml version="1.0" encoding="utf-8"?>\n<resources>\n' + "\n".join(alias_lines) +
+      '\n    <string-array name="icon_pack">\n' + "\n".join(array_lines) + "\n    </string-array>\n</resources>\n")
+print(f"{len(array_lines)} package aliases in icon_pack array")
+
 icons = [n for n in GLYPHS if n != "pack"]
 write(RES / "main/res/xml/drawable.xml", '<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <category title="All"/>\n' +
       "".join(f'    <item drawable="icon_{n}"/>\n' for n in icons) +

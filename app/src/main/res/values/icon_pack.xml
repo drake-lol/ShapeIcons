@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="ai_moises" type="drawable">@drawable/auto_3049ac69f4</item>
+    <item name="ai_x_grok" type="drawable">@drawable/auto_c0bb915879</item>
+    <item name="andes_oplus_documentsreader" type="drawable">@drawable/auto_211c9ad559</item>
+    <item name="app_lawnchair_lawnicons" type="drawable">@drawable/auto_dede4d3dc1</item>
+    <item name="app_lawnchair_nightly" type="drawable">@drawable/auto_4673ebac3c</item>
+    <item name="app_morphe_android_apps_photos" type="drawable">@drawable/auto_ae387c4b95</item>
+    <item name="app_morphe_android_apps_youtube_music" type="drawable">@drawable/auto_87553c5a7b</item>
+    <item name="app_morphe_android_youtube" type="drawable">@drawable/auto_471d92e5f1</item>
+    <item name="app_morphe_manager" type="drawable">@drawable/auto_63cf39842a</item>
+    <item name="app_palettebutton" type="drawable">@drawable/auto_2fbd279b2f</item>
+    <item name="app_revanced_android_gms" type="drawable">@drawable/auto_d9dcf5f662</item>
+    <item name="app_suggestedapps" type="drawable">@drawable/auto_79777c4c7e</item>
+    <item name="app_symfonik_music_player" type="drawable">@drawable/auto_9e74855c49</item>
+    <item name="bitpit_launcher" type="drawable">@drawable/icon_clock</item>
+    <item name="com_dailypay_dailypay" type="drawable">@drawable/auto_774f098212</item>
+    <item name="com_affirm_central" type="drawable">@drawable/auto_05a4f978fb</item>
+    <item name="com_aftership_aftership" type="drawable">@drawable/auto_c07e46374c</item>
+    <item name="com_akbon_myd" type="drawable">@drawable/auto_7e17723877</item>
+    <item name="com_akshaykadam_pixelboard" type="drawable">@drawable/auto_25c321f131</item>
+    <item name="com_amazon_dee_app" type="drawable">@drawable/auto_5baf71fc37</item>
+    <item name="com_amazon_mshop_android_shopping" type="drawable">@drawable/auto_302dd24bbf</item>
+    <item name="com_android_camera2" type="drawable">@drawable/icon_camera</item>
+    <item name="com_android_chrome" type="drawable">@drawable/icon_browser</item>
+    <item name="com_android_contacts" type="drawable">@drawable/icon_phone</item>
+    <item name="com_android_dialer" type="drawable">@drawable/icon_phone</item>
+    <item name="com_android_settings" type="drawable">@drawable/icon_settings</item>
+    <item name="com_android_vending" type="drawable">@drawable/icon_store</item>
+    <item name="com_anland_termux" type="drawable">@drawable/auto_3b832a018d</item>
+    <item name="com_anthropic_claude" type="drawable">@drawable/auto_914a0e9a18</item>
+    <item name="com_appslab_materialyou_widgetspro" type="drawable">@drawable/auto_5eb8aa97a1</item>
+    <item name="com_atolphadev_quikshort" type="drawable">@drawable/auto_bd072b9012</item>
+    <item name="com_beeper_android" type="drawable">@drawable/auto_f225c02978</item>
+    <item name="com_bestbuy_android" type="drawable">@drawable/auto_1217cbef93</item>
+    <item name="com_chamberlain_android_liftmaster_myq" type="drawable">@drawable/auto_679a65645e</item>
+    <item name="com_chess" type="drawable">@drawable/auto_653893198a</item>
+    <item name="com_coloros_compass2" type="drawable">@drawable/auto_39b00145d3</item>
+    <item name="com_coloros_translate" type="drawable">@drawable/auto_002ad376e2</item>
+    <item name="com_coloros_video" type="drawable">@drawable/icon_video</item>
+    <item name="com_dd_doordash" type="drawable">@drawable/auto_59b914db20</item>
+    <item name="com_debojyoti_oos12round_icpack" type="drawable">@drawable/auto_01781fa8d7</item>
+    <item name="com_deniscerri_ytdl" type="drawable">@drawable/auto_4a6480f1df</item>
+    <item name="com_discord" type="drawable">@drawable/auto_fd616df3e2</item>
+    <item name="com_doordash_driverapp" type="drawable">@drawable/auto_ab181751a1</item>
+    <item name="com_drdisagree_colorblendr" type="drawable">@drawable/auto_f481c63bc7</item>
+    <item name="com_eatos_iliquid_dark" type="drawable">@drawable/auto_406d48f9f7</item>
+    <item name="com_eatos_iliquid_glassdark" type="drawable">@drawable/auto_11874b0eaf</item>
+    <item name="com_eatos_iliquidcolor_darkglass" type="drawable">@drawable/auto_e5f04899cd</item>
+    <item name="com_eatos_iliquidcolor_glass" type="drawable">@drawable/auto_0715d0effc</item>
+    <item name="com_eatos_iliquidos" type="drawable">@drawable/auto_fa9af66fff</item>
+    <item name="com_eatos_iliquidos_glass" type="drawable">@drawable/auto_4040343fdd</item>
+    <item name="com_eatos_ippx" type="drawable">@drawable/auto_b5fe026bed</item>
+    <item name="com_eatos_ipux" type="drawable">@drawable/auto_a524046220</item>
+    <item name="com_eatos_itinted" type="drawable">@drawable/auto_48a4f8b703</item>
+    <item name="com_eatos_one3d" type="drawable">@drawable/auto_da599b52a1</item>
+    <item name="com_eatos_oneliquidpro" type="drawable">@drawable/auto_e2d9ff4b3d</item>
+    <item name="com_eatos_oneroundpro" type="drawable">@drawable/auto_3e174123b1</item>
+    <item name="com_ebay_mobile" type="drawable">@drawable/auto_93b4d8bba2</item>
+    <item name="com_epson_epsonsmart" type="drawable">@drawable/auto_e9ea4b3cdf</item>
+    <item name="com_epson_mobilephone_android_epsonprintserviceplugin" type="drawable">@drawable/auto_d24cd989c3</item>
+    <item name="com_etsy_android" type="drawable">@drawable/auto_fc03843761</item>
+    <item name="com_example_kinginstaller" type="drawable">@drawable/auto_3e7d41b371</item>
+    <item name="com_facebook_katana" type="drawable">@drawable/auto_f2eeaad00a</item>
+    <item name="com_facebook_stella" type="drawable">@drawable/auto_a9959e78a0</item>
+    <item name="com_fitbit_fitbitmobile" type="drawable">@drawable/auto_01a6f6b9a4</item>
+    <item name="com_gmg_pills3d_icon_theme_pack" type="drawable">@drawable/auto_59065f57ac</item>
+    <item name="com_google_android_googlecamera" type="drawable">@drawable/icon_camera</item>
+    <item name="com_google_android_apps_adm" type="drawable">@drawable/auto_aaeccad3d8</item>
+    <item name="com_google_android_apps_bard" type="drawable">@drawable/auto_0de5c55b82</item>
+    <item name="com_google_android_apps_chromecast_app" type="drawable">@drawable/auto_11cc5ee3ba</item>
+    <item name="com_google_android_apps_docs" type="drawable">@drawable/auto_5680b8a2c6</item>
+    <item name="com_google_android_apps_docs_editors_docs" type="drawable">@drawable/auto_752e61499a</item>
+    <item name="com_google_android_apps_docs_editors_sheets" type="drawable">@drawable/auto_164ed1739a</item>
+    <item name="com_google_android_apps_docs_editors_slides" type="drawable">@drawable/auto_cf586e1a75</item>
+    <item name="com_google_android_apps_googlevoice" type="drawable">@drawable/auto_6a1936ef26</item>
+    <item name="com_google_android_apps_maps" type="drawable">@drawable/icon_maps</item>
+    <item name="com_google_android_apps_messaging" type="drawable">@drawable/icon_messages</item>
+    <item name="com_google_android_apps_nbu_files" type="drawable">@drawable/icon_files</item>
+    <item name="com_google_android_apps_photos" type="drawable">@drawable/icon_gallery</item>
+    <item name="com_google_android_apps_safetyhub" type="drawable">@drawable/auto_c7367166b3</item>
+    <item name="com_google_android_apps_subscriptions_red" type="drawable">@drawable/auto_4b5be58894</item>
+    <item name="com_google_android_apps_tachyon" type="drawable">@drawable/auto_3233d64a00</item>
+    <item name="com_google_android_apps_tasks" type="drawable">@drawable/auto_00977fbd11</item>
+    <item name="com_google_android_apps_tips" type="drawable">@drawable/auto_0103c1cf9d</item>
+    <item name="com_google_android_apps_translate" type="drawable">@drawable/auto_185be71e66</item>
+    <item name="com_google_android_apps_walletnfcrel" type="drawable">@drawable/auto_d07431aef9</item>
+    <item name="com_google_android_apps_wallpaper" type="drawable">@drawable/auto_5083793b50</item>
+    <item name="com_google_android_apps_weather" type="drawable">@drawable/auto_548785ce17</item>
+    <item name="com_google_android_apps_youtube_music" type="drawable">@drawable/icon_music</item>
+    <item name="com_google_android_calculator" type="drawable">@drawable/icon_calc</item>
+    <item name="com_google_android_calendar" type="drawable">@drawable/icon_calendar</item>
+    <item name="com_google_android_contacts" type="drawable">@drawable/icon_contacts</item>
+    <item name="com_google_android_deskclock" type="drawable">@drawable/icon_clock</item>
+    <item name="com_google_android_dialer" type="drawable">@drawable/icon_phone</item>
+    <item name="com_google_android_gm" type="drawable">@drawable/icon_mail</item>
+    <item name="com_google_android_googlequicksearchbox" type="drawable">@drawable/auto_5b89123406</item>
+    <item name="com_google_android_keep" type="drawable">@drawable/auto_3cb9c4cc6b</item>
+    <item name="com_google_android_videos" type="drawable">@drawable/auto_cd4845a1f1</item>
+    <item name="com_google_android_youtube" type="drawable">@drawable/icon_video</item>
+    <item name="com_google_ar_lens" type="drawable">@drawable/auto_43028abd3a</item>
+    <item name="com_google_audio_hearing_visualization_accessibility_scribe" type="drawable">@drawable/auto_a3ce0f019a</item>
+    <item name="com_govee_home" type="drawable">@drawable/auto_6e04f0e397</item>
+    <item name="com_heytap_browser" type="drawable">@drawable/icon_browser</item>
+    <item name="com_heytap_cloud" type="drawable">@drawable/auto_9bb4fe67ef</item>
+    <item name="com_heytap_market" type="drawable">@drawable/icon_store</item>
+    <item name="com_htetznaing_zfile" type="drawable">@drawable/auto_fb6eb5685e</item>
+    <item name="com_htetznaing_zfont2" type="drawable">@drawable/auto_8ec7d21b0a</item>
+    <item name="com_instagram_android" type="drawable">@drawable/auto_c8fda6bcc1</item>
+    <item name="com_instagram_barcelona" type="drawable">@drawable/auto_63f1448210</item>
+    <item name="com_instructure_candroid" type="drawable">@drawable/auto_a7fd9d05df</item>
+    <item name="com_iotsolution_aidot" type="drawable">@drawable/auto_cecaee66b1</item>
+    <item name="com_italiano_simplyadaptive" type="drawable">@drawable/auto_d95bfa4313</item>
+    <item name="com_jndapp_adaptive_material_you_iconpack" type="drawable">@drawable/auto_2c094c3491</item>
+    <item name="com_jndapp_depth_live_wallpaper" type="drawable">@drawable/auto_2594380925</item>
+    <item name="com_jujinkim_frequaw" type="drawable">@drawable/auto_ad03eb46ae</item>
+    <item name="com_kieronquinn_app_ambientmusicmod" type="drawable">@drawable/auto_e75b8c2532</item>
+    <item name="com_kieronquinn_app_smartspacer" type="drawable">@drawable/auto_b8bf5b9c12</item>
+    <item name="com_life360_android_safetymapd" type="drawable">@drawable/auto_6309319650</item>
+    <item name="com_limebike" type="drawable">@drawable/auto_08bbc6208c</item>
+    <item name="com_mahmoudzadah_app_darkifycolor" type="drawable">@drawable/auto_ac0e1aed64</item>
+    <item name="com_mahmoudzadah_app_darkifysolid" type="drawable">@drawable/auto_20dad60c0e</item>
+    <item name="com_mahmoudzadah_app_sirifycolor" type="drawable">@drawable/auto_091f398eae</item>
+    <item name="com_mahmoudzadah_app_sirifysolid" type="drawable">@drawable/auto_d4d2e528e5</item>
+    <item name="com_microsoft_teams" type="drawable">@drawable/auto_ddf8e57556</item>
+    <item name="com_myklarnamobile" type="drawable">@drawable/auto_54de39ea37</item>
+    <item name="com_n0white_n0widgets" type="drawable">@drawable/auto_994f2087b7</item>
+    <item name="com_netflix_mediaclient" type="drawable">@drawable/auto_ae1fb464da</item>
+    <item name="com_nytimes_crossword" type="drawable">@drawable/auto_c4050517de</item>
+    <item name="com_oceanwing_battery_cam" type="drawable">@drawable/auto_5e3f3636f3</item>
+    <item name="com_onefinance_one" type="drawable">@drawable/auto_ad1ff18b99</item>
+    <item name="com_oneplus_backuprestore" type="drawable">@drawable/auto_192650dae4</item>
+    <item name="com_oneplus_brickmode" type="drawable">@drawable/auto_68fb977ad4</item>
+    <item name="com_oneplus_calculator" type="drawable">@drawable/icon_calc</item>
+    <item name="com_oneplus_deskclock" type="drawable">@drawable/icon_clock</item>
+    <item name="com_oneplus_filemanager" type="drawable">@drawable/icon_files</item>
+    <item name="com_oneplus_gallery" type="drawable">@drawable/icon_gallery</item>
+    <item name="com_oneplus_note" type="drawable">@drawable/auto_f5c618f6f7</item>
+    <item name="com_oneplus_soundrecorder" type="drawable">@drawable/auto_0a10faaa71</item>
+    <item name="com_oplus_aimemory" type="drawable">@drawable/auto_d9e420a1af</item>
+    <item name="com_oplus_camera" type="drawable">@drawable/icon_camera</item>
+    <item name="com_oplus_consumerirapp" type="drawable">@drawable/auto_21b70b9c87</item>
+    <item name="com_oplus_games" type="drawable">@drawable/auto_906bdb95e3</item>
+    <item name="com_oplus_phonemanager" type="drawable">@drawable/auto_416b822594</item>
+    <item name="com_p5sys_jump_android" type="drawable">@drawable/auto_3c8d10bd9a</item>
+    <item name="com_pashapuma_pix_material_you_dark" type="drawable">@drawable/auto_7ac7831ea5</item>
+    <item name="com_pashapuma_pix_material_you_iconpack" type="drawable">@drawable/auto_91ded7cc7b</item>
+    <item name="com_paypal_android_p2pmobile" type="drawable">@drawable/auto_e547b7f43b</item>
+    <item name="com_phonewalls_stockwallpapers" type="drawable">@drawable/auto_aa2ef9f4b9</item>
+    <item name="com_pryshedko_mtisland" type="drawable">@drawable/auto_35cbfa2a12</item>
+    <item name="com_qobuz_music" type="drawable">@drawable/auto_2d82853398</item>
+    <item name="com_readdle_spark" type="drawable">@drawable/auto_70c26006de</item>
+    <item name="com_reddit_frontpage" type="drawable">@drawable/auto_c96c2e7059</item>
+    <item name="com_redteamobile_roaming" type="drawable">@drawable/auto_0fdf741341</item>
+    <item name="com_roblox_client" type="drawable">@drawable/auto_b5aa3c8668</item>
+    <item name="com_rosan_installer_x_revived" type="drawable">@drawable/auto_c4a4176b6f</item>
+    <item name="com_sameerasw_essentials" type="drawable">@drawable/auto_e68074be9f</item>
+    <item name="com_samsung_android_app_cameraassistant" type="drawable">@drawable/auto_09e4403041</item>
+    <item name="com_samsung_android_app_contacts" type="drawable">@drawable/icon_contacts</item>
+    <item name="com_samsung_android_app_find" type="drawable">@drawable/auto_2bd8578623</item>
+    <item name="com_samsung_android_app_goodcatch" type="drawable">@drawable/auto_5fddbcb4d3</item>
+    <item name="com_samsung_android_app_routineplus" type="drawable">@drawable/auto_687653fd98</item>
+    <item name="com_samsung_android_app_sketchbook" type="drawable">@drawable/auto_9be9915709</item>
+    <item name="com_samsung_android_app_watchmanager" type="drawable">@drawable/auto_79ca6b28f5</item>
+    <item name="com_samsung_android_bixby_agent" type="drawable">@drawable/auto_78f17f90ae</item>
+    <item name="com_samsung_android_calendar" type="drawable">@drawable/icon_calendar</item>
+    <item name="com_samsung_android_dialer" type="drawable">@drawable/icon_phone</item>
+    <item name="com_samsung_android_displayassistant" type="drawable">@drawable/auto_6f09848da3</item>
+    <item name="com_samsung_android_email_provider" type="drawable">@drawable/icon_mail</item>
+    <item name="com_samsung_android_gallery_assistant_app" type="drawable">@drawable/auto_e770f1ccd7</item>
+    <item name="com_samsung_android_goodlock" type="drawable">@drawable/auto_7fcba7b89b</item>
+    <item name="com_samsung_android_keyscafe" type="drawable">@drawable/auto_5133e3e167</item>
+    <item name="com_samsung_android_messaging" type="drawable">@drawable/icon_messages</item>
+    <item name="com_samsung_android_oneconnect" type="drawable">@drawable/auto_fde5400c60</item>
+    <item name="com_samsung_android_samsungpass" type="drawable">@drawable/auto_9e4dd35486</item>
+    <item name="com_samsung_android_shealthmonitor" type="drawable">@drawable/auto_5ba18b1c4c</item>
+    <item name="com_samsung_android_sidegesturepad" type="drawable">@drawable/auto_a44db557cb</item>
+    <item name="com_samsung_android_soundassistant" type="drawable">@drawable/auto_1a96d97361</item>
+    <item name="com_samsung_android_themedesigner" type="drawable">@drawable/auto_756df4802d</item>
+    <item name="com_samsung_android_wonderland_wallpaper" type="drawable">@drawable/auto_9e10f56ab4</item>
+    <item name="com_samsung_ecomm" type="drawable">@drawable/auto_cf7ce41c18</item>
+    <item name="com_samsung_systemui_notilus" type="drawable">@drawable/auto_c905c17511</item>
+    <item name="com_scee_psxandroid" type="drawable">@drawable/auto_e434144a38</item>
+    <item name="com_sec_android_app_camera" type="drawable">@drawable/icon_camera</item>
+    <item name="com_sec_android_app_clockpackage" type="drawable">@drawable/icon_clock</item>
+    <item name="com_sec_android_app_myfiles" type="drawable">@drawable/icon_files</item>
+    <item name="com_sec_android_app_popupcalculator" type="drawable">@drawable/icon_calc</item>
+    <item name="com_sec_android_app_samsungapps" type="drawable">@drawable/icon_store</item>
+    <item name="com_sec_android_app_sbrowser" type="drawable">@drawable/icon_browser</item>
+    <item name="com_sec_android_app_shealth" type="drawable">@drawable/auto_db3ff0b3ea</item>
+    <item name="com_sec_android_app_voicenote" type="drawable">@drawable/auto_f888b09c22</item>
+    <item name="com_sec_android_easymover" type="drawable">@drawable/auto_944db18593</item>
+    <item name="com_sec_android_gallery3d" type="drawable">@drawable/icon_gallery</item>
+    <item name="com_securew2_paladin" type="drawable">@drawable/auto_5e023e4485</item>
+    <item name="com_smartrent_resident" type="drawable">@drawable/auto_c4ce81fa01</item>
+    <item name="com_snapchat_android" type="drawable">@drawable/auto_6a6ce9dffd</item>
+    <item name="com_spotify_music" type="drawable">@drawable/auto_de41c57642</item>
+    <item name="com_swappa_app_market" type="drawable">@drawable/auto_543beb4d01</item>
+    <item name="com_target_ui" type="drawable">@drawable/auto_c9f6736219</item>
+    <item name="com_termux" type="drawable">@drawable/auto_0215193480</item>
+    <item name="com_teslacoilsw_launcher" type="drawable">@drawable/auto_5c2fe88d69</item>
+    <item name="com_themesonfire_iconpack_waffle_icons_paid" type="drawable">@drawable/auto_d9189e0b5f</item>
+    <item name="com_tuya_smartlife" type="drawable">@drawable/auto_bb01c1b0ca</item>
+    <item name="com_ukg_oneapp" type="drawable">@drawable/auto_a38a132dd6</item>
+    <item name="com_valvesoftware_android_steam_community" type="drawable">@drawable/auto_ea5531c9e8</item>
+    <item name="com_venmo" type="drawable">@drawable/auto_950a38bf4e</item>
+    <item name="com_vzbusiness" type="drawable">@drawable/auto_998bc19a61</item>
+    <item name="com_walmart_android" type="drawable">@drawable/auto_5fceb7b92e</item>
+    <item name="com_weartools_phonebattcomp" type="drawable">@drawable/auto_6597f5e2e8</item>
+    <item name="com_whatsapp" type="drawable">@drawable/auto_d053b01d0a</item>
+    <item name="com_whicons_iconpack" type="drawable">@drawable/auto_b8c0437bd0</item>
+    <item name="com_windscribe_vpn" type="drawable">@drawable/auto_2f770bc06d</item>
+    <item name="com_x8bit_bitwarden" type="drawable">@drawable/auto_ad2b34b598</item>
+    <item name="com_zacharee1_systemuituner" type="drawable">@drawable/auto_52cb882c37</item>
+    <item name="com_zhiliaoapp_musically" type="drawable">@drawable/auto_a1e51364bd</item>
+    <item name="cs14_pixelperfect_iconpack_vera" type="drawable">@drawable/auto_24623c19cd</item>
+    <item name="dev_local_mapsmedia" type="drawable">@drawable/auto_4206e4d3b8</item>
+    <item name="dev_narikdesign_nam" type="drawable">@drawable/auto_6e38eb2f85</item>
+    <item name="dev_narikdesign_nothingadaptive" type="drawable">@drawable/auto_a825dc11a3</item>
+    <item name="dev_narikdesign_nothingmaterialyou" type="drawable">@drawable/auto_a2b7fc14a4</item>
+    <item name="df_root" type="drawable">@drawable/auto_41d0bf685f</item>
+    <item name="ginlemon_flower_slcompanionapp" type="drawable">@drawable/auto_539e6250a3</item>
+    <item name="ginlemon_flowerfree" type="drawable">@drawable/auto_5ae9659f5a</item>
+    <item name="in_hridayan_ashell" type="drawable">@drawable/auto_0e9ac81769</item>
+    <item name="io_github_chimio_inxlocker" type="drawable">@drawable/auto_f9debac7aa</item>
+    <item name="io_github_samolego_canta" type="drawable">@drawable/auto_53ecd5ef59</item>
+    <item name="it_dhd_oxygencustomizer" type="drawable">@drawable/auto_699723edb9</item>
+    <item name="kwlkkw_odbaum_pebxnq" type="drawable">@drawable/auto_e96a067cae</item>
+    <item name="lol_drake_expressiveface" type="drawable">@drawable/auto_812ac5db0c</item>
+    <item name="lol_drake_funnymail" type="drawable">@drawable/auto_389ec6a3f5</item>
+    <item name="lol_drake_pigeonhost" type="drawable">@drawable/auto_8bafed2134</item>
+    <item name="lol_drake_pixelifyoneui" type="drawable">@drawable/auto_f640585310</item>
+    <item name="me_aap_fermata_auto_dear_google_why" type="drawable">@drawable/auto_2aef6a9db9</item>
+    <item name="me_kavishdevar_librepods" type="drawable">@drawable/auto_cf828c06af</item>
+    <item name="me_weishu_kernelsu" type="drawable">@drawable/auto_dc757f2158</item>
+    <item name="net_oneplus_forums" type="drawable">@drawable/auto_654c46c85a</item>
+    <item name="net_oneplus_weather" type="drawable">@drawable/auto_bafbdf8a45</item>
+    <item name="net_thunderbird_android" type="drawable">@drawable/auto_0f68225d44</item>
+    <item name="nextapp_fx" type="drawable">@drawable/auto_af49edc21c</item>
+    <item name="org_adaway" type="drawable">@drawable/auto_8ca98e122e</item>
+    <item name="org_breezyweather" type="drawable">@drawable/auto_df55aafecc</item>
+    <item name="org_kustom_widget" type="drawable">@drawable/auto_c62c12bf56</item>
+    <item name="org_matrix_vector_manager" type="drawable">@drawable/auto_c4126e519f</item>
+    <item name="org_ncsecu_mobile" type="drawable">@drawable/auto_7171458572</item>
+    <item name="org_telegram_messenger" type="drawable">@drawable/auto_d0062d53b9</item>
+    <item name="rhtogg_xvefkd_ygfxrb" type="drawable">@drawable/auto_ade1c66bf2</item>
+    <item name="rk_android_app_bigicons" type="drawable">@drawable/auto_73ce952733</item>
+    <item name="rk_android_app_pixelsearch" type="drawable">@drawable/auto_b962064dc7</item>
+    <item name="rk_android_app_searchbarwidget" type="drawable">@drawable/auto_a588cf264b</item>
+    <item name="tv_twitch_android_app" type="drawable">@drawable/auto_90cf5e8219</item>
+    <string-array name="icon_pack">
+        <item>ai_moises</item>
+        <item>ai_x_grok</item>
+        <item>andes_oplus_documentsreader</item>
+        <item>app_lawnchair_lawnicons</item>
+        <item>app_lawnchair_nightly</item>
+        <item>app_morphe_android_apps_photos</item>
+        <item>app_morphe_android_apps_youtube_music</item>
+        <item>app_morphe_android_youtube</item>
+        <item>app_morphe_manager</item>
+        <item>app_palettebutton</item>
+        <item>app_revanced_android_gms</item>
+        <item>app_suggestedapps</item>
+        <item>app_symfonik_music_player</item>
+        <item>bitpit_launcher</item>
+        <item>com_dailypay_dailypay</item>
+        <item>com_affirm_central</item>
+        <item>com_aftership_aftership</item>
+        <item>com_akbon_myd</item>
+        <item>com_akshaykadam_pixelboard</item>
+        <item>com_amazon_dee_app</item>
+        <item>com_amazon_mshop_android_shopping</item>
+        <item>com_android_camera2</item>
+        <item>com_android_chrome</item>
+        <item>com_android_contacts</item>
+        <item>com_android_dialer</item>
+        <item>com_android_settings</item>
+        <item>com_android_vending</item>
+        <item>com_anland_termux</item>
+        <item>com_anthropic_claude</item>
+        <item>com_appslab_materialyou_widgetspro</item>
+        <item>com_atolphadev_quikshort</item>
+        <item>com_beeper_android</item>
+        <item>com_bestbuy_android</item>
+        <item>com_chamberlain_android_liftmaster_myq</item>
+        <item>com_chess</item>
+        <item>com_coloros_compass2</item>
+        <item>com_coloros_translate</item>
+        <item>com_coloros_video</item>
+        <item>com_dd_doordash</item>
+        <item>com_debojyoti_oos12round_icpack</item>
+        <item>com_deniscerri_ytdl</item>
+        <item>com_discord</item>
+        <item>com_doordash_driverapp</item>
+        <item>com_drdisagree_colorblendr</item>
+        <item>com_eatos_iliquid_dark</item>
+        <item>com_eatos_iliquid_glassdark</item>
+        <item>com_eatos_iliquidcolor_darkglass</item>
+        <item>com_eatos_iliquidcolor_glass</item>
+        <item>com_eatos_iliquidos</item>
+        <item>com_eatos_iliquidos_glass</item>
+        <item>com_eatos_ippx</item>
+        <item>com_eatos_ipux</item>
+        <item>com_eatos_itinted</item>
+        <item>com_eatos_one3d</item>
+        <item>com_eatos_oneliquidpro</item>
+        <item>com_eatos_oneroundpro</item>
+        <item>com_ebay_mobile</item>
+        <item>com_epson_epsonsmart</item>
+        <item>com_epson_mobilephone_android_epsonprintserviceplugin</item>
+        <item>com_etsy_android</item>
+        <item>com_example_kinginstaller</item>
+        <item>com_facebook_katana</item>
+        <item>com_facebook_stella</item>
+        <item>com_fitbit_fitbitmobile</item>
+        <item>com_gmg_pills3d_icon_theme_pack</item>
+        <item>com_google_android_googlecamera</item>
+        <item>com_google_android_apps_adm</item>
+        <item>com_google_android_apps_bard</item>
+        <item>com_google_android_apps_chromecast_app</item>
+        <item>com_google_android_apps_docs</item>
+        <item>com_google_android_apps_docs_editors_docs</item>
+        <item>com_google_android_apps_docs_editors_sheets</item>
+        <item>com_google_android_apps_docs_editors_slides</item>
+        <item>com_google_android_apps_googlevoice</item>
+        <item>com_google_android_apps_maps</item>
+        <item>com_google_android_apps_messaging</item>
+        <item>com_google_android_apps_nbu_files</item>
+        <item>com_google_android_apps_photos</item>
+        <item>com_google_android_apps_safetyhub</item>
+        <item>com_google_android_apps_subscriptions_red</item>
+        <item>com_google_android_apps_tachyon</item>
+        <item>com_google_android_apps_tasks</item>
+        <item>com_google_android_apps_tips</item>
+        <item>com_google_android_apps_translate</item>
+        <item>com_google_android_apps_walletnfcrel</item>
+        <item>com_google_android_apps_wallpaper</item>
+        <item>com_google_android_apps_weather</item>
+        <item>com_google_android_apps_youtube_music</item>
+        <item>com_google_android_calculator</item>
+        <item>com_google_android_calendar</item>
+        <item>com_google_android_contacts</item>
+        <item>com_google_android_deskclock</item>
+        <item>com_google_android_dialer</item>
+        <item>com_google_android_gm</item>
+        <item>com_google_android_googlequicksearchbox</item>
+        <item>com_google_android_keep</item>
+        <item>com_google_android_videos</item>
+        <item>com_google_android_youtube</item>
+        <item>com_google_ar_lens</item>
+        <item>com_google_audio_hearing_visualization_accessibility_scribe</item>
+        <item>com_govee_home</item>
+        <item>com_heytap_browser</item>
+        <item>com_heytap_cloud</item>
+        <item>com_heytap_market</item>
+        <item>com_htetznaing_zfile</item>
+        <item>com_htetznaing_zfont2</item>
+        <item>com_instagram_android</item>
+        <item>com_instagram_barcelona</item>
+        <item>com_instructure_candroid</item>
+        <item>com_iotsolution_aidot</item>
+        <item>com_italiano_simplyadaptive</item>
+        <item>com_jndapp_adaptive_material_you_iconpack</item>
+        <item>com_jndapp_depth_live_wallpaper</item>
+        <item>com_jujinkim_frequaw</item>
+        <item>com_kieronquinn_app_ambientmusicmod</item>
+        <item>com_kieronquinn_app_smartspacer</item>
+        <item>com_life360_android_safetymapd</item>
+        <item>com_limebike</item>
+        <item>com_mahmoudzadah_app_darkifycolor</item>
+        <item>com_mahmoudzadah_app_darkifysolid</item>
+        <item>com_mahmoudzadah_app_sirifycolor</item>
+        <item>com_mahmoudzadah_app_sirifysolid</item>
+        <item>com_microsoft_teams</item>
+        <item>com_myklarnamobile</item>
+        <item>com_n0white_n0widgets</item>
+        <item>com_netflix_mediaclient</item>
+        <item>com_nytimes_crossword</item>
+        <item>com_oceanwing_battery_cam</item>
+        <item>com_onefinance_one</item>
+        <item>com_oneplus_backuprestore</item>
+        <item>com_oneplus_brickmode</item>
+        <item>com_oneplus_calculator</item>
+        <item>com_oneplus_deskclock</item>
+        <item>com_oneplus_filemanager</item>
+        <item>com_oneplus_gallery</item>
+        <item>com_oneplus_note</item>
+        <item>com_oneplus_soundrecorder</item>
+        <item>com_oplus_aimemory</item>
+        <item>com_oplus_camera</item>
+        <item>com_oplus_consumerirapp</item>
+        <item>com_oplus_games</item>
+        <item>com_oplus_phonemanager</item>
+        <item>com_p5sys_jump_android</item>
+        <item>com_pashapuma_pix_material_you_dark</item>
+        <item>com_pashapuma_pix_material_you_iconpack</item>
+        <item>com_paypal_android_p2pmobile</item>
+        <item>com_phonewalls_stockwallpapers</item>
+        <item>com_pryshedko_mtisland</item>
+        <item>com_qobuz_music</item>
+        <item>com_readdle_spark</item>
+        <item>com_reddit_frontpage</item>
+        <item>com_redteamobile_roaming</item>
+        <item>com_roblox_client</item>
+        <item>com_rosan_installer_x_revived</item>
+        <item>com_sameerasw_essentials</item>
+        <item>com_samsung_android_app_cameraassistant</item>
+        <item>com_samsung_android_app_contacts</item>
+        <item>com_samsung_android_app_find</item>
+        <item>com_samsung_android_app_goodcatch</item>
+        <item>com_samsung_android_app_routineplus</item>
+        <item>com_samsung_android_app_sketchbook</item>
+        <item>com_samsung_android_app_watchmanager</item>
+        <item>com_samsung_android_bixby_agent</item>
+        <item>com_samsung_android_calendar</item>
+        <item>com_samsung_android_dialer</item>
+        <item>com_samsung_android_displayassistant</item>
+        <item>com_samsung_android_email_provider</item>
+        <item>com_samsung_android_gallery_assistant_app</item>
+        <item>com_samsung_android_goodlock</item>
+        <item>com_samsung_android_keyscafe</item>
+        <item>com_samsung_android_messaging</item>
+        <item>com_samsung_android_oneconnect</item>
+        <item>com_samsung_android_samsungpass</item>
+        <item>com_samsung_android_shealthmonitor</item>
+        <item>com_samsung_android_sidegesturepad</item>
+        <item>com_samsung_android_soundassistant</item>
+        <item>com_samsung_android_themedesigner</item>
+        <item>com_samsung_android_wonderland_wallpaper</item>
+        <item>com_samsung_ecomm</item>
+        <item>com_samsung_systemui_notilus</item>
+        <item>com_scee_psxandroid</item>
+        <item>com_sec_android_app_camera</item>
+        <item>com_sec_android_app_clockpackage</item>
+        <item>com_sec_android_app_myfiles</item>
+        <item>com_sec_android_app_popupcalculator</item>
+        <item>com_sec_android_app_samsungapps</item>
+        <item>com_sec_android_app_sbrowser</item>
+        <item>com_sec_android_app_shealth</item>
+        <item>com_sec_android_app_voicenote</item>
+        <item>com_sec_android_easymover</item>
+        <item>com_sec_android_gallery3d</item>
+        <item>com_securew2_paladin</item>
+        <item>com_smartrent_resident</item>
+        <item>com_snapchat_android</item>
+        <item>com_spotify_music</item>
+        <item>com_swappa_app_market</item>
+        <item>com_target_ui</item>
+        <item>com_termux</item>
+        <item>com_teslacoilsw_launcher</item>
+        <item>com_themesonfire_iconpack_waffle_icons_paid</item>
+        <item>com_tuya_smartlife</item>
+        <item>com_ukg_oneapp</item>
+        <item>com_valvesoftware_android_steam_community</item>
+        <item>com_venmo</item>
+        <item>com_vzbusiness</item>
+        <item>com_walmart_android</item>
+        <item>com_weartools_phonebattcomp</item>
+        <item>com_whatsapp</item>
+        <item>com_whicons_iconpack</item>
+        <item>com_windscribe_vpn</item>
+        <item>com_x8bit_bitwarden</item>
+        <item>com_zacharee1_systemuituner</item>
+        <item>com_zhiliaoapp_musically</item>
+        <item>cs14_pixelperfect_iconpack_vera</item>
+        <item>dev_local_mapsmedia</item>
+        <item>dev_narikdesign_nam</item>
+        <item>dev_narikdesign_nothingadaptive</item>
+        <item>dev_narikdesign_nothingmaterialyou</item>
+        <item>df_root</item>
+        <item>ginlemon_flower_slcompanionapp</item>
+        <item>ginlemon_flowerfree</item>
+        <item>in_hridayan_ashell</item>
+        <item>io_github_chimio_inxlocker</item>
+        <item>io_github_samolego_canta</item>
+        <item>it_dhd_oxygencustomizer</item>
+        <item>kwlkkw_odbaum_pebxnq</item>
+        <item>lol_drake_expressiveface</item>
+        <item>lol_drake_funnymail</item>
+        <item>lol_drake_pigeonhost</item>
+        <item>lol_drake_pixelifyoneui</item>
+        <item>me_aap_fermata_auto_dear_google_why</item>
+        <item>me_kavishdevar_librepods</item>
+        <item>me_weishu_kernelsu</item>
+        <item>net_oneplus_forums</item>
+        <item>net_oneplus_weather</item>
+        <item>net_thunderbird_android</item>
+        <item>nextapp_fx</item>
+        <item>org_adaway</item>
+        <item>org_breezyweather</item>
+        <item>org_kustom_widget</item>
+        <item>org_matrix_vector_manager</item>
+        <item>org_ncsecu_mobile</item>
+        <item>org_telegram_messenger</item>
+        <item>rhtogg_xvefkd_ygfxrb</item>
+        <item>rk_android_app_bigicons</item>
+        <item>rk_android_app_pixelsearch</item>
+        <item>rk_android_app_searchbarwidget</item>
+        <item>tv_twitch_android_app</item>
+    </string-array>
+</resources>

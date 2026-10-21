@@ -7,7 +7,7 @@ android {
         applicationId = "lol.drake.shapeicons"
         minSdk = 24
         targetSdk = 36
-        versionCode = 18
+        versionCode = 19
         versionName = "0.12"
     }
     buildTypes { release { signingConfig = signingConfigs.getByName("debug") } }
