@@ -2,3 +2,5 @@ build/
 .gradle/
 local.properties
 *.apk
+tools/auto_icons/
+app/src/main/res/drawable-nodpi/auto_*.png

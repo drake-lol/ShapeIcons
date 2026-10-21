@@ -77,11 +77,13 @@ public class IconGeneratorProvider extends ContentProvider {
             String in = cfg.optString("inputFileName", null);
             if (in != null && in.matches("[A-Za-z0-9._-]{1,128}")) input = BitmapFactory.decodeFile(new File(dir("gen_in"), in).getPath());
 
-            Bitmap out = IconRenderer.render(c, cfg.optString("packageName", null), cfg.optInt("action", -1), input,
-                    prefs.shape(), prefs.sizeScale(), px);
+            String shape = cfg.optString("shape", "");                       // optional override (used by tools/bake_installed.py)
+            if (!java.util.Arrays.asList(IconPrefs.SHAPES).contains(shape)) shape = prefs.shape();
+            Bitmap out = IconRenderer.render(c, cfg.optString("packageName", null), cfg.optString("activityName", null),
+                    cfg.optInt("action", -1), input, shape, shape.equals(prefs.shape()) ? prefs.sizeScale() : 1f, px);
             if (out == null) return null;
 
-            String name = safe(uri.getQueryParameter("output")) + "_v" + prefs.version() + ".png";
+            String name = safe(uri.getQueryParameter("output")) + "_v" + prefs.version() + "_" + shape + ".png";
             File f = new File(dir("gen_out"), name);
             try (FileOutputStream os = new FileOutputStream(f)) { out.compress(Bitmap.CompressFormat.PNG, 100, os); }
             MatrixCursor cur = new MatrixCursor(new String[]{"fileuri"});

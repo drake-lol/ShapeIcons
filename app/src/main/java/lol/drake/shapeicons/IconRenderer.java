@@ -29,6 +29,10 @@ final class IconRenderer {
      * @param input  the app's own icon as the launcher drew it (used when the pack has no glyph), or null
      */
     static Bitmap render(Context c, String pkg, int action, Bitmap input, String shape, float sizeScale, int px) {
+        return render(c, pkg, null, action, input, shape, sizeScale, px);
+    }
+
+    static Bitmap render(Context c, String pkg, String activity, int action, Bitmap input, String shape, float sizeScale, int px) {
         Bitmap bmp = Bitmap.createBitmap(px, px, Bitmap.Config.ARGB_8888);
         Canvas cv = new Canvas(bmp);
         draw(cv, drawable(c, "shape_" + shape), px, 1f);
@@ -40,7 +44,32 @@ final class IconRenderer {
             draw(cv, new android.graphics.drawable.BitmapDrawable(c.getResources(), input), px, 0.5f * sizeScale);
         } else {
             try {
-                draw(cv, c.getPackageManager().getApplicationIcon(pkg), px, 0.5f * sizeScale);
+                android.content.pm.PackageManager pm = c.getPackageManager();
+                Drawable d = null;
+                if (activity != null && !activity.isEmpty()) {
+                    try { d = pm.getActivityIcon(new android.content.ComponentName(pkg, activity)); } catch (Exception ignored) { }
+                }
+                if (d == null) d = pm.getApplicationIcon(pkg);
+                if (d instanceof android.graphics.drawable.AdaptiveIconDrawable) {
+                    // draw the layers ourselves (not through the icon's own mask) and cut them with the pack's shape
+                    android.graphics.drawable.AdaptiveIconDrawable aid = (android.graphics.drawable.AdaptiveIconDrawable) d;
+                    Bitmap layers = Bitmap.createBitmap(px, px, Bitmap.Config.ARGB_8888);
+                    Canvas lc = new Canvas(layers);
+                    int off = Math.round(px * 0.1675f);                         // layers are 108dp, the visible window 72dp
+                    for (Drawable l : new Drawable[]{aid.getBackground(), aid.getForeground()}) {
+                        if (l == null) continue;
+                        l.setBounds(-off, -off, px + off, px + off);
+                        l.draw(lc);
+                    }
+                    Bitmap mask = Bitmap.createBitmap(px, px, Bitmap.Config.ARGB_8888);
+                    draw(new Canvas(mask), drawable(c, "shape_" + shape), px, 1f);
+                    android.graphics.Paint paint = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
+                    paint.setXfermode(new android.graphics.PorterDuffXfermode(android.graphics.PorterDuff.Mode.DST_IN));
+                    lc.drawBitmap(mask, 0, 0, paint);
+                    cv.drawBitmap(layers, 0, 0, null);
+                } else {
+                    draw(cv, d, px, 0.58f * sizeScale);                         // legacy icon: on the dark shape
+                }
             } catch (Exception e) {
                 return null;
             }

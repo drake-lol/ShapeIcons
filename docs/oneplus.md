@@ -24,3 +24,16 @@ after a version bump plus re-applying the pack in Settings > Icons (Camera was s
 Files, "Mail" (Gmail, renamed on this phone) and Settings still showed non-pack icons although they are mapped; the
 renamed label suggests per-app custom icons set in the launcher, which override the pack. Reset those items' icons in
 the launcher to see the pack. Unmapped apps (Instagram, Beeper, Life360) keep their own icons.
+
+## Icons for every installed app (tools/bake_installed.py)
+Launchers that ignore the pack's generic `iconback`/`iconmask` leave unmapped apps untouched. `tools/bake_installed.py <serial...>`
+asks the installed app (through its Smart Launcher icon-generator provider) to render each launchable app's own icon
+clipped to the pack's shape, saves the PNGs to `tools/auto_icons/` (git-ignored, device specific), and
+`tools/gen_icons.py` then adds them to `appfilter.xml` and `drawable.xml` (category "Your apps"). 212 icons were baked from a
+OnePlus 13s and a Galaxy Z Fold7.
+
+Result on the OnePlus 13s (OxygenOS 16.1): the baked entries were **not** drawn. Even mapping an app (FX) to a glyph
+that works for other apps changed nothing, and turning off `oplus_customize_use_optimized_app_icon_enabled` did not help
+(restored to 1 afterwards). So the stock launcher only applies the pack to some apps (Play Store, Photos, Chrome, YouTube,
+Phone, Camera, Gmail, Settings were confirmed); why it skips others is not understood. The baked icons are untested on
+Lawnchair/Nova.

@@ -175,7 +175,7 @@ public class MainActivity extends Activity {
                 String comp = p.getAttributeValue(null, "component");
                 String pkg = comp.substring(comp.indexOf('{') + 1, comp.indexOf('/'));
                 String icon = p.getAttributeValue(null, "drawable");
-                if (seenIcons.add(icon)) packages.add(pkg);          // one grid cell per glyph
+                if (!icon.startsWith("auto_") && seenIcons.add(icon)) packages.add(pkg);   // baked per-device icons are not shown in the grid          // one grid cell per glyph
             }
         } catch (Exception ignored) { }
     }

@@ -193,7 +193,24 @@ for g, comps in APPS.items():
 af.append('</resources>')
 write(RES / "main/res/xml/appfilter.xml", "\n".join(af) + "\n")
 
+import json, shutil
+AUTO = pathlib.Path(__file__).resolve().parent / "auto_icons"
+auto_index = json.loads((AUTO / "index.json").read_text()) if (AUTO / "index.json").exists() else {}
+if auto_index:
+    out = RES / "main/res/drawable-nodpi"
+    for f in out.glob("auto_*.png"):
+        f.unlink()
+    for key, name in auto_index.items():
+        if (AUTO / f"{name}.png").exists():
+            shutil.copy(AUTO / f"{name}.png", out / f"{name}.png")
+    lines = [f'    <item component="ComponentInfo{{{k}}}" drawable="{n}"/>' for k, n in sorted(auto_index.items()) if (AUTO / f"{n}.png").exists()]
+    af_text = (RES / "main/res/xml/appfilter.xml").read_text().replace("</resources>", "    <!-- baked from installed apps by tools/bake_installed.py -->\n" + "\n".join(lines) + "\n</resources>")
+    write(RES / "main/res/xml/appfilter.xml", af_text)
+    print(f"{len(lines)} baked app icons added")
+
 icons = [n for n in GLYPHS if n != "pack"]
 write(RES / "main/res/xml/drawable.xml", '<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <category title="All"/>\n' +
-      "".join(f'    <item drawable="icon_{n}"/>\n' for n in icons) + '</resources>\n')
+      "".join(f'    <item drawable="icon_{n}"/>\n' for n in icons) +
+      ('    <category title="Your apps"/>\n' + "".join(f'    <item drawable="{n}"/>\n' for _, n in sorted(auto_index.items()) if (AUTO / f"{n}.png").exists()) if auto_index else "") +
+      '</resources>\n')
 print(f"{len(SHAPES)} shapes, {len(GLYPHS)} glyphs, {sum(map(len, APPS.values()))} component mappings")
