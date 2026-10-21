@@ -1,0 +1,24 @@
+# OxygenOS / ColorOS (OnePlus)
+
+Checked on a OnePlus 13s (CPH2723), OxygenOS 16.1 (Android 16), launcher `com.android.launcher` 16.6.8,
+over wireless adb.
+
+## How it works
+- No extra code is needed: the OS lists any pack that answers the standard discovery intents (`org.adw.launcher.THEMES`,
+  Nova, Apex) under Settings > Home screen, Lock screen & style > Icons (also reachable by long-pressing an empty spot on
+  the home screen > Icons). Shape Icons appears there next to Waffle and iLiquid.
+- Applying stores the package name in `Settings.System icon_pack_name`. The launcher's UxIcon engine
+  (`com.oplus.uxicon.ui.morphicon.IconPackLoaderFactory`) reads the pack's `appfilter.xml`, takes the drawable by name and
+  caches per pack package + version code (so bump `versionCode` when the icons change, then re-apply).
+- There is no apply intent: the UXDesign Icons screen is permission-protected (`com.oplus.permission.safe.SECURITY`),
+  and Blueprint-style packs document the same manual steps. The dashboard has no OnePlus button for that reason.
+- Static, like Nova/Lawnchair: the pack's baked shape (`tools/gen_icons.py --shape`), not the dashboard choice.
+
+## Mappings
+`appfilter.xml` includes OnePlus apps read from the device launcher list: Camera, Files, Gallery, Clock, Calculator,
+Contacts, Phone dialer, OnePlus browser, Video and App Market.
+
+## Observed
+Mapped third-party apps (Play Store, Photos, Chrome, YouTube, Phone) show the pack. Core system apps such as Camera,
+Files, Mail and Settings kept OnePlus's own icons even after re-applying and restarting the launcher, so the OS appears to
+reserve them. Unmapped apps (Instagram, Life360, ...) keep their own icons.

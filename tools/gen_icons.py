@@ -83,37 +83,37 @@ GLYPHS = {
     "pack":     ("#FFFFFF", [(circ(8, 9, 3.6), "s"), ("M13,5.5h6.5v7H13z", "s"), ("M5,14.5l3.5,6l3.5,-6z", "s"), ("M15,16.5h0.01", "d")]),
 }
 
-# component -> glyph (well-known Google/AOSP launcher activities; extend freely)
+# component -> glyph (well-known Google/AOSP launcher activities; OnePlus/OxygenOS 16 ones verified on a OnePlus 13s; extend freely)
 APPS = {
-    "phone": ["com.google.android.dialer/com.google.android.dialer.extensions.GoogleDialtactsActivity",
+    "phone": ["com.android.contacts/com.android.contacts.DialtactsActivityAlias", "com.google.android.dialer/com.google.android.dialer.extensions.GoogleDialtactsActivity",
               "com.samsung.android.dialer/com.samsung.android.dialer.DialtactsActivity",          # One UI, unverified
               "com.android.dialer/com.android.dialer.main.impl.MainActivity"],
     "messages": ["com.google.android.apps.messaging/com.google.android.apps.messaging.ui.ConversationListActivity",
                  "com.samsung.android.messaging/com.samsung.android.messaging.ui.view.main.WithActivity"],   # One UI, unverified
-    "camera": ["com.google.android.GoogleCamera/com.android.camera.CameraLauncher", "com.android.camera2/com.android.camera.CameraLauncher",
+    "camera": ["com.oplus.camera/com.oplus.camera.Camera", "com.google.android.GoogleCamera/com.android.camera.CameraLauncher", "com.android.camera2/com.android.camera.CameraLauncher",
                "com.sec.android.app.camera/com.sec.android.app.camera.Camera"],                              # One UI, verified on a Fold7
-    "gallery": ["com.google.android.apps.photos/com.google.android.apps.photos.home.HomeActivity",
+    "gallery": ["com.oneplus.gallery/com.coloros.gallery3d.app.MainActivity", "com.google.android.apps.photos/com.google.android.apps.photos.home.HomeActivity",
                 "com.sec.android.gallery3d/com.samsung.android.gallery.app.activity.GalleryActivity"],        # One UI, verified
-    "browser": ["com.android.chrome/com.google.android.apps.chrome.Main",
+    "browser": ["com.heytap.browser/com.android.browser.BrowserActivity", "com.android.chrome/com.google.android.apps.chrome.Main",
                 "com.sec.android.app.sbrowser/com.sec.android.app.sbrowser.SBrowserMainActivity"],            # Samsung Internet, verified
     "mail": ["com.google.android.gm/com.google.android.gm.ConversationListActivityGmail",
              "com.samsung.android.email.provider/com.samsung.android.email.ui.messagelist.MessageListActivity"],  # One UI, unverified
     "calendar": ["com.google.android.calendar/com.android.calendar.AllInOneActivity",
                  "com.samsung.android.calendar/com.samsung.android.app.calendar.activity.MainActivity"],       # One UI, unverified
-    "clock": ["com.google.android.deskclock/com.android.deskclock.DeskClock", "bitpit.launcher/bitpit.launcher.RecentlyInstalled",
+    "clock": ["com.oneplus.deskclock/com.oplus.alarmclock.AlarmClock", "com.google.android.deskclock/com.android.deskclock.DeskClock", "bitpit.launcher/bitpit.launcher.RecentlyInstalled",
               "com.sec.android.app.clockpackage/com.sec.android.app.clockpackage.ClockPackage"],              # One UI, unverified
     "settings": ["com.android.settings/com.android.settings.Settings",
                  "bitpit.launcher/bitpit.launcher.Settings"],                                                   # Niagara's bottom buttons (documented)
     "maps": ["com.google.android.apps.maps/com.google.android.maps.MapsActivity"],
-    "files": ["com.google.android.apps.nbu.files/com.google.android.apps.nbu.files.home.HomeActivity",
+    "files": ["com.oneplus.filemanager/com.oplus.filemanager.main.ui.MainActivity", "com.google.android.apps.nbu.files/com.google.android.apps.nbu.files.home.HomeActivity",
               "com.sec.android.app.myfiles/com.sec.android.app.myfiles.ui.MainActivity"],                     # My Files, verified
-    "video": ["com.google.android.youtube/com.google.android.apps.youtube.app.WatchWhileActivity"],
-    "store": ["com.android.vending/com.android.vending.AssetBrowserActivity",
+    "video": ["com.coloros.video/com.heytap.video.splash.VideoSplashActivity", "com.google.android.youtube/com.google.android.apps.youtube.app.WatchWhileActivity"],
+    "store": ["com.heytap.market/com.heytap.market.activity.MainActivity", "com.android.vending/com.android.vending.AssetBrowserActivity",
               "com.sec.android.app.samsungapps/com.sec.android.app.samsungapps.SamsungAppsMainActivity"],     # Galaxy Store, verified
-    "contacts": ["com.google.android.contacts/com.android.contacts.activities.PeopleActivity",
+    "contacts": ["com.android.contacts/com.android.contacts.PeopleActivityAlias", "com.google.android.contacts/com.android.contacts.activities.PeopleActivity",
                  "com.samsung.android.app.contacts/com.samsung.android.contacts.contactslist.PeopleActivity"], # One UI, unverified
     "star": ["bitpit.launcher/bitpit.launcher.Pro"],                                                    # Niagara Pro button
-    "calc": ["com.google.android.calculator/com.android.calculator2.Calculator",
+    "calc": ["com.oneplus.calculator/com.android.calculator2.Calculator", "com.google.android.calculator/com.android.calculator2.Calculator",
              "com.sec.android.app.popupcalculator/com.sec.android.app.popupcalculator.Calculator"],           # One UI, unverified
     "music": ["com.google.android.apps.youtube.music/com.google.android.apps.youtube.music.activities.MusicActivity"],
 }
