@@ -19,6 +19,8 @@ over wireless adb.
 Contacts, Phone dialer, OnePlus browser, Video and App Market.
 
 ## Observed
-Mapped third-party apps (Play Store, Photos, Chrome, YouTube, Phone) show the pack. Core system apps such as Camera,
-Files, Mail and Settings kept OnePlus's own icons even after re-applying and restarting the launcher, so the OS appears to
-reserve them. Unmapped apps (Instagram, Life360, ...) keep their own icons.
+Mapped apps (Play Store, Photos, Chrome, YouTube, Phone, Camera) show the pack. The launcher only picked up new mappings
+after a version bump plus re-applying the pack in Settings > Icons (Camera was stale until the second re-apply).
+Files, "Mail" (Gmail, renamed on this phone) and Settings still showed non-pack icons although they are mapped; the
+renamed label suggests per-app custom icons set in the launcher, which override the pack. Reset those items' icons in
+the launcher to see the pack. Unmapped apps (Instagram, Beeper, Life360) keep their own icons.
