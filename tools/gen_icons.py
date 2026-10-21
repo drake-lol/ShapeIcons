@@ -10,7 +10,7 @@
 
 Edit GLYPHS / APPS / SHAPES, rerun, rebuild. Nothing else needs touching.
 """
-import math, pathlib
+import argparse, math, pathlib
 
 RES = pathlib.Path(__file__).resolve().parent.parent / "app/src"
 C, R = 54.0, 48.0          # canvas center / shape radius (canvas is 108)
@@ -80,22 +80,33 @@ GLYPHS = {
 # component -> glyph (well-known Google/AOSP launcher activities; extend freely)
 APPS = {
     "phone": ["com.google.android.dialer/com.google.android.dialer.extensions.GoogleDialtactsActivity",
-              "com.google.android.dialer/com.google.android.apps.dialer.extensions.GoogleDialtactsActivity",
+              "com.samsung.android.dialer/com.samsung.android.dialer.DialtactsActivity",          # One UI, unverified
               "com.android.dialer/com.android.dialer.main.impl.MainActivity"],
-    "messages": ["com.google.android.apps.messaging/com.google.android.apps.messaging.ui.ConversationListActivity"],
-    "camera": ["com.google.android.GoogleCamera/com.android.camera.CameraLauncher", "com.android.camera2/com.android.camera.CameraLauncher"],
-    "gallery": ["com.google.android.apps.photos/com.google.android.apps.photos.home.HomeActivity"],
-    "browser": ["com.android.chrome/com.google.android.apps.chrome.Main"],
-    "mail": ["com.google.android.gm/com.google.android.gm.ConversationListActivityGmail"],
-    "calendar": ["com.google.android.calendar/com.android.calendar.AllInOneActivity"],
-    "clock": ["com.google.android.deskclock/com.android.deskclock.DeskClock"],
+    "messages": ["com.google.android.apps.messaging/com.google.android.apps.messaging.ui.ConversationListActivity",
+                 "com.samsung.android.messaging/com.samsung.android.messaging.ui.view.main.WithActivity"],   # One UI, unverified
+    "camera": ["com.google.android.GoogleCamera/com.android.camera.CameraLauncher", "com.android.camera2/com.android.camera.CameraLauncher",
+               "com.sec.android.app.camera/com.sec.android.app.camera.Camera"],                              # One UI, verified on a Fold7
+    "gallery": ["com.google.android.apps.photos/com.google.android.apps.photos.home.HomeActivity",
+                "com.sec.android.gallery3d/com.samsung.android.gallery.app.activity.GalleryActivity"],        # One UI, verified
+    "browser": ["com.android.chrome/com.google.android.apps.chrome.Main",
+                "com.sec.android.app.sbrowser/com.sec.android.app.sbrowser.SBrowserMainActivity"],            # Samsung Internet, verified
+    "mail": ["com.google.android.gm/com.google.android.gm.ConversationListActivityGmail",
+             "com.samsung.android.email.provider/com.samsung.android.email.ui.messagelist.MessageListActivity"],  # One UI, unverified
+    "calendar": ["com.google.android.calendar/com.android.calendar.AllInOneActivity",
+                 "com.samsung.android.calendar/com.samsung.android.app.calendar.activity.MainActivity"],       # One UI, unverified
+    "clock": ["com.google.android.deskclock/com.android.deskclock.DeskClock",
+              "com.sec.android.app.clockpackage/com.sec.android.app.clockpackage.ClockPackage"],              # One UI, unverified
     "settings": ["com.android.settings/com.android.settings.Settings"],
     "maps": ["com.google.android.apps.maps/com.google.android.maps.MapsActivity"],
-    "files": ["com.google.android.apps.nbu.files/com.google.android.apps.nbu.files.home.HomeActivity"],
+    "files": ["com.google.android.apps.nbu.files/com.google.android.apps.nbu.files.home.HomeActivity",
+              "com.sec.android.app.myfiles/com.sec.android.app.myfiles.ui.MainActivity"],                     # My Files, verified
     "video": ["com.google.android.youtube/com.google.android.apps.youtube.app.WatchWhileActivity"],
-    "store": ["com.android.vending/com.android.vending.AssetBrowserActivity"],
-    "contacts": ["com.google.android.contacts/com.android.contacts.activities.PeopleActivity"],
-    "calc": ["com.google.android.calculator/com.android.calculator2.Calculator"],
+    "store": ["com.android.vending/com.android.vending.AssetBrowserActivity",
+              "com.sec.android.app.samsungapps/com.sec.android.app.samsungapps.SamsungAppsMainActivity"],     # Galaxy Store, verified
+    "contacts": ["com.google.android.contacts/com.android.contacts.activities.PeopleActivity",
+                 "com.samsung.android.app.contacts/com.samsung.android.contacts.contactslist.PeopleActivity"], # One UI, unverified
+    "calc": ["com.google.android.calculator/com.android.calculator2.Calculator",
+             "com.sec.android.app.popupcalculator/com.sec.android.app.popupcalculator.Calculator"],           # One UI, unverified
     "music": ["com.google.android.apps.youtube.music/com.google.android.apps.youtube.music.activities.MusicActivity"],
 }
 
@@ -112,7 +123,11 @@ def vector(body):
             '    android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">\n'
             f'{body}</vector>\n')
 
-DEFAULT_SHAPE = "circle"
+ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+ap.add_argument("--shape", default="circle", choices=sorted(SHAPES),
+                help="shape baked into the STATIC fallback (appfilter.xml / icon_*). Theme Park and other snapshot-style "
+                     "consumers can't use the dynamic providers, so this is the shape they get.")
+DEFAULT_SHAPE = ap.parse_args().shape
 for name, d in SHAPES.items():
     v = vector(f'    <path android:fillColor="{BG_FILL}" android:pathData="{d}"/>\n')
     write(RES / f"main/res/drawable/shape_{name}.xml", v)
