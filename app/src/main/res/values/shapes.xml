@@ -4,8 +4,14 @@
         <item>circle</item>
         <item>diamond</item>
         <item>flower</item>
+        <item>gem</item>
         <item>glassy</item>
+        <item>gradient_tile</item>
         <item>hexagon</item>
+        <item>neon</item>
+        <item>paper</item>
+        <item>ring</item>
         <item>squircle</item>
+        <item>sticker</item>
     </string-array>
 </resources>

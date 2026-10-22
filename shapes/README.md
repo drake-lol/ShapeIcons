@@ -9,4 +9,5 @@ Put a **square PNG** in this folder and it becomes a new shape. Nothing else to 
 
 Then run `./build.sh --shape glassy` (or pick it in the app's Shape row).
 
-`glassy.png` here is only an example. Delete it if you don't want it.
+The PNGs already here (`glassy`, `gradient_tile`, `ring`, `neon`, `paper`, `gem`, `sticker`) are **placeholders** to try the
+feature. They are simple generated images: replace or delete any of them.

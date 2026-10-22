@@ -17,16 +17,31 @@ your own PNG). The icons themselves are simple line glyphs; the background shape
 
 ## Install and use
 
-1. Install the APK (see [Build](#build) below) and open **Shape Icons**.
-2. In the app, tap your launcher under **Apply to a launcher**. Or open your launcher's settings and pick the pack
-   called **Shape Icons** (details per launcher: [docs/launchers.md](docs/launchers.md)).
-3. Pick a shape in the app. Smart Launcher updates immediately. For any other launcher:
+**Easiest: download the app.**
+
+1. Go to the [**latest release**](https://github.com/drake-lol/ShapeIcons/releases/latest) and download
+   `ShapeIcons-<version>.apk` (about 1 MB). Each release also lists its SHA-256 so you can check the file.
+2. Open the file on your phone and install it. Android will ask you to allow installs from your browser or file manager
+   the first time.
+3. Open **Shape Icons**. Under **Apply to a launcher**, tap your launcher. Or open your launcher's settings and pick the
+   pack called **Shape Icons** (steps per launcher: [docs/launchers.md](docs/launchers.md)).
+4. Pick a shape in the app. **Smart Launcher** updates right away. For any other launcher the shape is the one built in
+   (flower), see below to change it.
+
+Notes about the download: it needs Android 7.0 or newer, and it is signed with the standard Android debug key (not a Play
+Store build), so to update to a newer release you may need to uninstall the old one first. It does not contain icons
+from anyone's phone. All releases: [Releases page](https://github.com/drake-lol/ShapeIcons/releases).
+
+**Change the built-in shape** (for every launcher except Smart Launcher): either build it yourself (see [Build](#build)):
 
 ```bash
 ./build.sh --shape hexagon --bump --install   # rebuild with another shape and install
 ```
 
 then re-apply the pack in that launcher (some need a nudge, see [troubleshooting](docs/troubleshooting.md)).
+
+**Built-in shapes:** circle, squircle, flower, hexagon, diamond, plus placeholder PNG shapes to try (`glassy`,
+`gradient_tile`, `ring`, `neon`, `paper`, `gem`, `sticker`). They live in [`shapes/`](shapes/) and appear in the app's Shape row.
 
 ## Works with
 
