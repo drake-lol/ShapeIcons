@@ -43,6 +43,17 @@ then re-apply the pack in that launcher (some need a nudge, see [troubleshooting
 **Built-in shapes:** circle, squircle, flower, hexagon, diamond, plus placeholder PNG shapes to try (`glassy`,
 `gradient_tile`, `ring`, `neon`, `paper`, `gem`, `sticker`). They live in [`shapes/`](shapes/) and appear in the app's Shape row.
 
+## Material You colours
+
+Under **Colors** in the app, choose **Material You** and the icons take your wallpaper colours (and follow light/dark mode)
+instead of the pack's own colours. Needs Android 12 or newer.
+
+- **Smart Launcher:** the shape *and* glyph are drawn in the system palette each time, so it follows wallpaper changes.
+  Apps the pack doesn't list use their own single-colour (monochrome) layer when they have one.
+- **Lawnchair:** the pack also provides single-colour glyphs, so you can pick **Shape Icons** as the *themed icon source*
+  and let Lawnchair colour them. This part is built but not tested yet.
+- **Other launchers** show the fixed icons as before.
+
 ## Works with
 
 | Launcher | Shape changes | How you apply it |

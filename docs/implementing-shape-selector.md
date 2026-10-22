@@ -161,6 +161,29 @@ All of this is in `DynamicIconProvider.apply()` and `AuthReceiver`.
 
 ---
 
+## Part C2. Material You colours (optional)
+
+Because the provider draws icons on request, it can colour them from the system palette:
+
+```java
+// MaterialYou.java (Android 12+): colours are read when the icon is drawn, so they follow the wallpaper and dark mode
+dark ? new MaterialYou(c.getColor(android.R.color.system_accent1_800), c.getColor(android.R.color.system_accent1_100))
+     : new MaterialYou(c.getColor(android.R.color.system_accent1_100), c.getColor(android.R.color.system_accent1_700));
+```
+
+In `IconRenderer.render(..., colorMode)`: tint the vector shape with `background`, tint the glyph with `glyph`
+(`drawable.setTint()` recolours everything it draws and keeps transparency). For apps you have no glyph for, use the
+app's `AdaptiveIconDrawable.getMonochrome()` (Android 13+) tinted with `glyph`, on the tinted shape.
+
+Two details: put a signature of the colours in the cache file name (so a new wallpaper makes a new file), and leave PNG
+shapes untinted, since tinting would flatten them.
+
+For launchers that recolour packs themselves (Lawnchair), ship single-colour glyphs (`mono_*.xml`, white) and a
+`res/xml/grayscale_icon_map.xml` (`<icon package="..." drawable="@drawable/mono_camera"/>`), and add the action
+`app.lawnchair.icons.THEMED_ICON` to the pack's activity filter. `tools/gen_icons.py` writes both.
+
+---
+
 ## Part D. Recipe for another icon pack
 
 You can adopt as much or as little as you need.

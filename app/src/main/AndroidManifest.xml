@@ -89,6 +89,10 @@
                 <action android:name="com.gau.go.launcherex.theme"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
+            <intent-filter>   <!-- Lawnchair themed-icon source (Material You icons) -->
+                <action android:name="app.lawnchair.icons.THEMED_ICON"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
             <intent-filter>   <!-- Kvaesitso -->
                 <action android:name="org.adw.ActivityStarter.THEMES"/>
             </intent-filter>

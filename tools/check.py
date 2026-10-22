@@ -90,10 +90,18 @@ if root is not None:
         if h.startswith("shape_") and h not in ("shape_bg",) and h[6:] not in listed:
             err(f"{h}: present but not listed in shapes.xml")
 
+# grayscale_icon_map (themed icons)
+root = parse(RES / "xml/grayscale_icon_map.xml")
+if root is not None:
+    for el in root.iter("icon"):
+        t = el.get("drawable", "")
+        if not t.startswith("@drawable/") or t[len("@drawable/"):] not in have:
+            err(f"grayscale_icon_map.xml: {el.get('package')} -> missing {t}")
+
 # manifest declares the discovery filters launchers look for
 man = (RES.parent / "AndroidManifest.xml").read_text()
 for needed in ("org.adw.launcher.THEMES", "com.novalauncher.THEME", "com.anddoes.launcher.THEME",
-               "lol.drake.shapeicons.iconprovider", "ginlemon.smartlauncher.ICONPROVIDER"):
+               "lol.drake.shapeicons.iconprovider", "ginlemon.smartlauncher.ICONPROVIDER", "app.lawnchair.icons.THEMED_ICON"):
     if needed not in man:
         err(f"AndroidManifest.xml: missing {needed}")
 

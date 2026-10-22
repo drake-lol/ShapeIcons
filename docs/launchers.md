@@ -20,6 +20,11 @@ Short answer for each launcher: how to apply, whether the shape changes live, an
 **Live shape** means: tap a shape in the app and the home screen changes by itself. Only Smart Launcher supports that.
 For the rest the shape is whatever was built in; change it with `./build.sh --shape NAME --bump --install` and re-apply.
 
+## Material You colours
+Turn on **Colors > Material You** in the app. Live in Smart Launcher (tested); Lawnchair can use the pack as its themed icon
+source (built, untested); other launchers keep the fixed colours. Smart Launcher also has its own themed-icon setting; if
+you want the colours to come from this pack, choose Shape Icons as the pack rather than Smart Launcher's built-in icons.
+
 ## Small things per launcher
 
 - **Nova:** set *Icon style > Reshape legacy icons* to **Unthemed** or **Off**, otherwise Nova puts its own coloured plate

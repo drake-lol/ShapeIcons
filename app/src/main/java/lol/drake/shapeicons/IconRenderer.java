@@ -7,6 +7,7 @@ import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,14 +34,26 @@ final class IconRenderer {
     }
 
     static Bitmap render(Context c, String pkg, String activity, int action, Bitmap input, String shape, float sizeScale, int px) {
+        return render(c, pkg, activity, action, input, shape, sizeScale, px, 0);
+    }
+
+    /** @param colorMode 0 = the pack's own colours, 1 = Material You (system palette) */
+    static Bitmap render(Context c, String pkg, String activity, int action, Bitmap input, String shape, float sizeScale, int px, int colorMode) {
         if (c == null || px <= 0 || px > 1024) return null;
+        final MaterialYou my = colorMode == 1 ? MaterialYou.current(c) : null;   // null on Android 11- : falls back to the original look
         Bitmap bmp = Bitmap.createBitmap(px, px, Bitmap.Config.ARGB_8888);
         Canvas cv = new Canvas(bmp);
-        draw(cv, drawable(c, "shape_" + shape), px, 1f);
+        Drawable shapeDrawable = drawable(c, "shape_" + shape);
+        if (my != null && shapeDrawable != null && !(shapeDrawable instanceof android.graphics.drawable.BitmapDrawable)) {
+            shapeDrawable.setTint(my.background);                                 // vector shapes take the theme colour; PNG shapes keep their look
+        }
+        draw(cv, shapeDrawable, px, 1f);
         String fg = pkg == null ? null : glyphs(c).get(pkg);
         if (fg == null && action >= 0 && action < ACTION_GLYPHS.length) fg = ACTION_GLYPHS[action];
         if (fg != null) {
-            draw(cv, drawable(c, fg), px, sizeScale);                      // our glyph, scaled by the size option
+            Drawable glyph = drawable(c, fg);
+            if (my != null && glyph != null) glyph.setTint(my.glyph);
+            draw(cv, glyph, px, sizeScale);                                // our glyph, scaled by the size option
         } else if (input != null) {                                           // not in the pack: the launcher's icon on the shape
             draw(cv, new android.graphics.drawable.BitmapDrawable(c.getResources(), input), px, 0.5f * sizeScale);
         } else {
@@ -57,7 +70,11 @@ final class IconRenderer {
                     Bitmap layers = Bitmap.createBitmap(px, px, Bitmap.Config.ARGB_8888);
                     Canvas lc = new Canvas(layers);
                     int off = Math.round(px * 0.1675f);                         // layers are 108dp, the visible window 72dp
-                    for (Drawable l : new Drawable[]{aid.getBackground(), aid.getForeground()}) {
+                    Drawable mono = (my != null && Build.VERSION.SDK_INT >= 33) ? aid.getMonochrome() : null;
+                    Drawable[] stack = mono != null ? new Drawable[]{new android.graphics.drawable.ColorDrawable(my.background), mono}
+                                                    : new Drawable[]{aid.getBackground(), aid.getForeground()};
+                    if (mono != null) mono.mutate().setTint(my.glyph);              // the app's own single-colour layer, in the theme colour
+                    for (Drawable l : stack) {
                         if (l == null) continue;
                         l.setBounds(-off, -off, px + off, px + off);
                         l.draw(lc);

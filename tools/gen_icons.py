@@ -8,6 +8,7 @@
                                           Bitmaps (not vectors / adaptive icons) so launchers such as Lawnchair draw them as-is and
                                           ignore their own icon shape setting. Needs ImageMagick (`magick`) with librsvg.
   src/main/res/xml/appfilter.xml          component -> icon_* mapping, plus shape_bg as iconback/iconmask for the rest
+  src/main/res/drawable/mono_*.xml        single-colour glyphs, and xml/grayscale_icon_map.xml (themed icons, Lawnchair)
   src/main/res/xml/drawable.xml           list of icons for the launcher's icon picker (and the demo grid)
 
 Edit GLYPHS / APPS / SHAPES, rerun, rebuild. Nothing else needs touching.
@@ -214,6 +215,24 @@ def render_png(name, color, parts, out_path, px=192):
 
 for name, (color, parts) in icon_svgs.items():
     render_png(name, color, parts, RES / f"main/res/drawable-nodpi/icon_{name}.png")
+
+# Single-colour glyphs + map for launchers that recolour icons themselves (Lawnchair "themed icons", Material You).
+for name, (color, parts) in GLYPHS.items():
+    body = f'    <group android:translateX="{OFF}" android:translateY="{OFF}" android:scaleX="{S}" android:scaleY="{S}">\n'
+    for d, kind in parts:
+        if kind == "f":
+            body += f'        <path android:fillColor="#FFFFFFFF" android:pathData="{d}"/>\n'
+        else:
+            w = 3.2 if kind == "d" else 1.7
+            body += (f'        <path android:strokeColor="#FFFFFFFF" android:strokeWidth="{w}" android:strokeLineCap="round" '
+                     f'android:strokeLineJoin="round" android:pathData="{d}"/>\n')
+    write(RES / f"main/res/drawable/mono_{name}.xml", vector(body + '    </group>\n'))
+gm = {}
+for g, comps in APPS.items():
+    for comp in comps:
+        gm.setdefault(comp.split("/")[0], g)
+write(RES / "main/res/xml/grayscale_icon_map.xml", '<?xml version="1.0" encoding="utf-8"?>\n<icons>\n' +
+      "".join(f'    <icon package="{pkg}" drawable="@drawable/mono_{g}"/>\n' for pkg, g in sorted(gm.items())) + '</icons>\n')
 
 write(RES / "main/res/values/shapes.xml", '<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <string-array name="shapes">\n' +
       "".join(f"        <item>{n}</item>\n" for n in ALL_SHAPES) + "    </string-array>\n</resources>\n")

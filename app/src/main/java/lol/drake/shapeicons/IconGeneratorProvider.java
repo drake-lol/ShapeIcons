@@ -90,13 +90,15 @@ public class IconGeneratorProvider extends ContentProvider {
 
             String shape = cfg.optString("shape", "");                       // optional override (used by tools/bake_installed.py)
             if (!IconPrefs.isShape(c, shape)) shape = prefs.shape();
+            String colorOverride = cfg.optString("colors", "");                // optional override (testing / baking): original | material_you
+            int colorMode = colorOverride.equals("material_you") ? 1 : colorOverride.equals("original") ? 0 : prefs.colors();
             Bitmap out = IconRenderer.render(c, cfg.optString("packageName", null), cfg.optString("activityName", null),
-                    cfg.optInt("action", -1), input, shape, shape.equals(prefs.shape()) ? prefs.sizeScale() : 1f, px);
+                    cfg.optInt("action", -1), input, shape, shape.equals(prefs.shape()) ? prefs.sizeScale() : 1f, px, colorMode);
             if (out == null) return null;
 
             File d = dir("gen_out");
             CacheFiles.prune(d);
-            String name = safe(uri.getQueryParameter("output")) + "_v" + prefs.version() + "_" + shape + ".png";
+            String name = safe(uri.getQueryParameter("output")) + "_v" + prefs.version() + "_" + shape + "_" + MaterialYou.signature(c, colorMode) + ".png";
             File f = new File(d, name), tmp = new File(d, name + ".tmp");
             try (FileOutputStream os = new FileOutputStream(tmp)) {                 // write then rename: readers never see half a PNG
                 if (!out.compress(Bitmap.CompressFormat.PNG, 100, os)) return null;
