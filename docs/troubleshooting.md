@@ -11,7 +11,7 @@ You forgot `--bump`. Launchers cache by version. Rebuild with `--bump` and re-ap
 Nova > Look & feel > Icon style > *Reshape legacy icons* > **Unthemed** (or Off).
 
 **OnePlus: some apps keep their own icon.**
-Run `python3 tools/bake_installed.py <serial>`, rebuild with `--bump`, re-apply under Settings > Icons. If one specific app
+Run `python3 tools/bake_installed.py <serial>`, rebuild with `./build.sh --baked --bump --install`, re-apply under Settings > Icons. If one specific app
 still looks stock, reset a custom icon you set on it in the launcher. Check what the system loaded:
 `adb logcat -d | grep OplusIconPackUtil`.
 

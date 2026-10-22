@@ -140,10 +140,14 @@ for bad in CUSTOM_DIR.glob("*.png"):
 ALL_SHAPES = sorted(set(SHAPES) | set(CUSTOM))
 
 ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+ap.add_argument("--baked", action="store_true",
+                help="also add icons baked from YOUR installed apps (tools/auto_icons). Off by default so committed/released builds never "
+                     "contain the list of apps on your phone.")
 ap.add_argument("--shape", default="flower", choices=ALL_SHAPES,
                 help="shape baked into the STATIC fallback (appfilter.xml / icon_*). Theme Park and other snapshot-style "
                      "consumers can't use the dynamic providers, so this is the shape they get.")
-DEFAULT_SHAPE = ap.parse_args().shape
+_args = ap.parse_args()
+DEFAULT_SHAPE = _args.shape
 for old in (RES / "main/res/drawable-nodpi").glob("shape_*.png"):
     old.unlink()                                                  # removed custom shapes must not linger
 for name, src in CUSTOM.items():
@@ -229,7 +233,11 @@ write(RES / "main/res/xml/appfilter.xml", "\n".join(af) + "\n")
 
 import json, shutil
 AUTO = pathlib.Path(__file__).resolve().parent / "auto_icons"
-auto_index = json.loads((AUTO / "index.json").read_text()) if (AUTO / "index.json").exists() else {}
+auto_index = json.loads((AUTO / "index.json").read_text()) if (_args.baked and (AUTO / "index.json").exists()) else {}
+_out = RES / "main/res/drawable-nodpi"
+if not auto_index:
+    for f in _out.glob("auto_*.png"):
+        f.unlink()
 if auto_index:
     out = RES / "main/res/drawable-nodpi"
     for f in out.glob("auto_*.png"):

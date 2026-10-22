@@ -22,7 +22,8 @@ Add its component to `APPS`, under the glyph you want:
 Find an app's component with `adb shell cmd package query-activities --brief -a android.intent.action.MAIN -c android.intent.category.LAUNCHER`.
 
 ## Cover every app on your phone
-`python3 tools/bake_installed.py <serial>` (needs the app installed on that phone). Then `./build.sh --bump --install`.
+`python3 tools/bake_installed.py <serial>` (needs the app installed on that phone). Then `./build.sh --baked --bump --install`. Without `--baked` these icons are left out on purpose (they reveal which apps you
+have), so never publish a `--baked` build.
 The baked icons are kept in `tools/auto_icons/` and ignored by git.
 
 ## Check your changes

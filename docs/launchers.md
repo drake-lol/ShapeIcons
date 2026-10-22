@@ -27,7 +27,7 @@ For the rest the shape is whatever was built in; change it with `./build.sh --sh
 - **Lawnchair:** it remembers icons by pack name, so after a rebuild switch to *System icons* and back (the script
   `tools/apply_shape.sh` does this for you). Lawnchair's own *Icon shape* setting does not affect our icons.
 - **OxygenOS / ColorOS:** the launcher only themes apps the pack knows about. Run `tools/bake_installed.py` for your phone
-  so every app is covered. If an icon still looks stock, you may have set a custom icon for it in the launcher; reset it.
+  and build with `./build.sh --baked` so every app is covered. If an icon still looks stock, you may have set a custom icon for it in the launcher; reset it.
 - **One UI:** Samsung only takes packs through Theme Park, and only reads them when you apply the pack.
 - **Pixel Launcher, Nothing, HyperOS, Vivo:** don't support third-party icon packs, so nothing to do.
 

@@ -74,7 +74,8 @@ The APK is `app/build/outputs/apk/debug/app-debug.apk`.
 
 - **New shape:** drop a PNG in [`shapes/`](shapes/README.md). Done.
 - **Icons for the apps you have:** `python3 tools/bake_installed.py <adb-serial>` draws every app on your phone onto
-  the shape, then rebuild. Needed for launchers that only theme apps the pack lists (OnePlus does this).
+  the shape, then `./build.sh --baked --bump --install`. Keep these builds to yourself: they contain the list of apps on your phone
+  (they are ignored by git, and `--baked` is off by default so releases never include them). Needed for launchers that only theme apps the pack lists (OnePlus does this).
 - **Different glyph or app mapping:** edit the tables at the top of `tools/gen_icons.py`. See
   [docs/customizing.md](docs/customizing.md).
 
