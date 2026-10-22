@@ -93,6 +93,13 @@ public class MainActivity extends Activity {
                         .putExtra("com.teslacoilsw.launcher.extra.ICON_THEME_PACKAGE", me), "built-in shape"));
         l.add(new Launcher("Niagara Launcher", new String[]{"bitpit.launcher"},
                 new Intent("bitpit.launcher.APPLY_ICONS").setPackage("bitpit.launcher").putExtra("packageName", me), "built-in shape"));
+        // no apply intent known for these: open the launcher, the pack is chosen in its own settings
+        l.add(new Launcher("Kvaesitso", new String[]{"de.mm20.launcher2.release"},
+                getPackageManager().getLaunchIntentForPackage("de.mm20.launcher2.release"), "Settings > Icons"));
+        l.add(new Launcher("Microsoft Launcher", new String[]{"com.microsoft.launcher"},
+                getPackageManager().getLaunchIntentForPackage("com.microsoft.launcher"), "Settings > Personalization > Icon pack"));
+        l.add(new Launcher("Action Launcher", new String[]{"com.actionlauncher.playstore"},
+                getPackageManager().getLaunchIntentForPackage("com.actionlauncher.playstore"), "Settings > Icons > Icon pack"));
         l.add(new Launcher("Apex Launcher", new String[]{"com.anddoes.launcher"},
                 new Intent("com.anddoes.launcher.SET_THEME").setPackage("com.anddoes.launcher")
                         .putExtra("com.anddoes.launcher.THEME_PACKAGE_NAME", me), "built-in shape"));

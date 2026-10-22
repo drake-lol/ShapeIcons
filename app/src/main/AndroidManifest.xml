@@ -12,6 +12,9 @@
         <package android:name="app.lawnchair.debug"/>
         <package android:name="com.teslacoilsw.launcher"/>
         <package android:name="bitpit.launcher"/>
+        <package android:name="de.mm20.launcher2.release"/>
+        <package android:name="com.microsoft.launcher"/>
+        <package android:name="com.actionlauncher.playstore"/>
         <package android:name="com.anddoes.launcher"/>
         <package android:name="org.adw.launcher"/>
         <package android:name="org.adw.launcher.one"/>
@@ -85,6 +88,12 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="com.gau.go.launcherex.theme"/>
                 <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>   <!-- Kvaesitso -->
+                <action android:name="org.adw.ActivityStarter.THEMES"/>
+            </intent-filter>
+            <intent-filter>   <!-- Motorola launcher -->
+                <action android:name="com.motorola.launcher.ACTION_ICON_PACK"/>
             </intent-filter>
             <intent-filter>   <!-- Atom -->
                 <action android:name="com.dlto.atom.launcher.THEME"/>
