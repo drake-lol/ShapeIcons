@@ -8,7 +8,7 @@ android {
         minSdk = 24
         targetSdk = 36
         versionCode = 25
-        versionName = "0.25"
+        versionName = "0.1.0"
     }
     buildTypes { release { signingConfig = signingConfigs.getByName("debug") } }
 
