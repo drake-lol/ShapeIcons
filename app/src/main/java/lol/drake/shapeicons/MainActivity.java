@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
     private IconPrefs prefs;
     private GridLayout grid;
     private final List<String> packages = new ArrayList<>();
-    private final List<Button> shapeButtons = new ArrayList<>(), sizeButtons = new ArrayList<>(), colorButtons = new ArrayList<>();
+    private final List<Button> shapeButtons = new ArrayList<>(), sizeButtons = new ArrayList<>(), colorButtons = new ArrayList<>(), swapButtons = new ArrayList<>();
     private final java.util.Set<String> seenIcons = new java.util.HashSet<>();
     private int cell;
 
@@ -48,18 +48,19 @@ public class MainActivity extends Activity {
 
         root.addView(text("Shape", 16, 0xFFFFFFFF, true));
         LinearLayout shapes = row();
-        for (String s : IconPrefs.shapes(this)) shapes.addView(chip(s, shapeButtons, () -> choose(s, prefs.size(), prefs.colors())));
+        for (String s : IconPrefs.shapes(this)) shapes.addView(chip(s, shapeButtons, () -> choose(s, prefs.size(), prefs.colors(), prefs.swap())));
         root.addView(scroll(shapes));
 
         root.addView(text("Icon size", 16, 0xFFFFFFFF, true));
         LinearLayout sizes = row();
-        for (int i = 0; i < IconPrefs.SIZE_NAMES.length; i++) { final int sz = i; sizes.addView(chip(IconPrefs.SIZE_NAMES[i], sizeButtons, () -> choose(prefs.shape(), sz, prefs.colors()))); }
+        for (int i = 0; i < IconPrefs.SIZE_NAMES.length; i++) { final int sz = i; sizes.addView(chip(IconPrefs.SIZE_NAMES[i], sizeButtons, () -> choose(prefs.shape(), sz, prefs.colors(), prefs.swap()))); }
         root.addView(sizes);
 
         root.addView(text("Colors", 16, 0xFFFFFFFF, true));
         LinearLayout colors = row();
-        for (int i = 0; i < IconPrefs.COLOR_NAMES.length; i++) { final int cm = i; colors.addView(chip(IconPrefs.COLOR_NAMES[i], colorButtons, () -> choose(prefs.shape(), prefs.size(), cm))); }
-        root.addView(colors);
+        for (int i = 0; i < IconPrefs.COLOR_NAMES.length; i++) { final int cm = i; colors.addView(chip(IconPrefs.COLOR_NAMES[i], colorButtons, () -> choose(prefs.shape(), prefs.size(), cm, prefs.swap()))); }
+        colors.addView(chip("Swap colors", swapButtons, () -> choose(prefs.shape(), prefs.size(), prefs.colors(), !prefs.swap())));
+        root.addView(scroll(colors));
         if (android.os.Build.VERSION.SDK_INT < 31) root.addView(text("Material You needs Android 12 or newer.", 12, 0xFF6B7385, false));
 
         root.addView(text("Apply to a launcher", 16, 0xFFFFFFFF, true));
@@ -149,8 +150,8 @@ public class MainActivity extends Activity {
         return bt;
     }
 
-    private void choose(String shape, int size, int colors) {
-        DynamicIconProvider.apply(this, shape, size, colors);
+    private void choose(String shape, int size, int colors, boolean swap) {
+        DynamicIconProvider.apply(this, shape, size, colors, swap);
         refresh();
     }
 
@@ -158,6 +159,7 @@ public class MainActivity extends Activity {
         for (int i = 0; i < shapeButtons.size(); i++) mark(shapeButtons.get(i), IconPrefs.shapes(this)[i].equals(prefs.shape()));
         for (int i = 0; i < sizeButtons.size(); i++) mark(sizeButtons.get(i), i == prefs.size());
         for (int i = 0; i < colorButtons.size(); i++) mark(colorButtons.get(i), i == prefs.colors());
+        for (Button b : swapButtons) mark(b, prefs.swap());
         final int px = cell, version = prefs.version();
         new Thread(() -> {
             List<Bitmap> bmps = new ArrayList<>();

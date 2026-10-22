@@ -39,20 +39,36 @@ final class IconRenderer {
 
     /** @param colorMode 0 = the pack's own colours, 1 = Material You (system palette) */
     static Bitmap render(Context c, String pkg, String activity, int action, Bitmap input, String shape, float sizeScale, int px, int colorMode) {
+        return render(c, pkg, activity, action, input, shape, sizeScale, px, colorMode, false);
+    }
+
+    /** @param swap draw the background in the glyph colour and the glyph in the background colour */
+    static Bitmap render(Context c, String pkg, String activity, int action, Bitmap input, String shape, float sizeScale, int px, int colorMode, boolean swap) {
         if (c == null || px <= 0 || px > 1024) return null;
         final MaterialYou my = colorMode == 1 ? MaterialYou.current(c) : null;   // null on Android 11- : falls back to the original look
+        final int swapBg = my != null ? my.glyph : 0, swapGlyph = my != null ? my.background : 0;
         Bitmap bmp = Bitmap.createBitmap(px, px, Bitmap.Config.ARGB_8888);
         Canvas cv = new Canvas(bmp);
         Drawable shapeDrawable = drawable(c, "shape_" + shape);
-        if (my != null && shapeDrawable != null && !(shapeDrawable instanceof android.graphics.drawable.BitmapDrawable)) {
-            shapeDrawable.setTint(my.background);                                 // vector shapes take the theme colour; PNG shapes keep their look
-        }
-        draw(cv, shapeDrawable, px, 1f);
         String fg = pkg == null ? null : glyphs(c).get(pkg);
         if (fg == null && action >= 0 && action < ACTION_GLYPHS.length) fg = ACTION_GLYPHS[action];
+        // colours: Material You palette, or the pack's own (background colour + this glyph's colour); swap flips them
+        int bgColor = 0, glyphColor = 0;
+        boolean tinted = false;
+        if (my != null) {
+            bgColor = swap ? swapBg : my.background; glyphColor = swap ? swapGlyph : my.glyph; tinted = true;
+        } else if (swap && fg != null) {
+            int own = color(c, "glyph_" + fg.substring("fg_".length()));
+            int base = color(c, "icon_bg");
+            if (own != 0 && base != 0) { bgColor = own; glyphColor = base; tinted = true; }
+        }
+        if (tinted && shapeDrawable != null && !(shapeDrawable instanceof android.graphics.drawable.BitmapDrawable)) {
+            shapeDrawable.setTint(bgColor);                                       // vector shapes take the colour; PNG shapes keep their look
+        }
+        draw(cv, shapeDrawable, px, 1f);
         if (fg != null) {
             Drawable glyph = drawable(c, fg);
-            if (my != null && glyph != null) glyph.setTint(my.glyph);
+            if (tinted && glyph != null) glyph.setTint(glyphColor);
             draw(cv, glyph, px, sizeScale);                                // our glyph, scaled by the size option
         } else if (input != null) {                                           // not in the pack: the launcher's icon on the shape
             draw(cv, new android.graphics.drawable.BitmapDrawable(c.getResources(), input), px, 0.5f * sizeScale);
@@ -71,9 +87,9 @@ final class IconRenderer {
                     Canvas lc = new Canvas(layers);
                     int off = Math.round(px * 0.1675f);                         // layers are 108dp, the visible window 72dp
                     Drawable mono = (my != null && Build.VERSION.SDK_INT >= 33) ? aid.getMonochrome() : null;
-                    Drawable[] stack = mono != null ? new Drawable[]{new android.graphics.drawable.ColorDrawable(my.background), mono}
+                    Drawable[] stack = mono != null ? new Drawable[]{new android.graphics.drawable.ColorDrawable(swap ? swapBg : my.background), mono}
                                                     : new Drawable[]{aid.getBackground(), aid.getForeground()};
-                    if (mono != null) mono.mutate().setTint(my.glyph);              // the app's own single-colour layer, in the theme colour
+                    if (mono != null) mono.mutate().setTint(swap ? swapGlyph : my.glyph);              // the app's own single-colour layer, in the theme colour
                     for (Drawable l : stack) {
                         if (l == null) continue;
                         l.setBounds(-off, -off, px + off, px + off);
@@ -100,6 +116,11 @@ final class IconRenderer {
         int s = Math.round(px * scale), o = (px - s) / 2;
         d.setBounds(o, o, o + s, o + s);
         d.draw(cv);
+    }
+
+    private static int color(Context c, String name) {
+        int id = c.getResources().getIdentifier(name, "color", c.getPackageName());
+        return id == 0 ? 0 : c.getColor(id);
     }
 
     private static Drawable drawable(Context c, String name) {

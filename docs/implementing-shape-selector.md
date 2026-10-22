@@ -175,7 +175,11 @@ In `IconRenderer.render(..., colorMode)`: tint the vector shape with `background
 (`drawable.setTint()` recolours everything it draws and keeps transparency). For apps you have no glyph for, use the
 app's `AdaptiveIconDrawable.getMonochrome()` (Android 13+) tinted with `glyph`, on the tinted shape.
 
-Two details: put a signature of the colours in the cache file name (so a new wallpaper makes a new file), and leave PNG
+**Swap colours** is just exchanging the two values: `bg = swap ? glyph : background`, and the same the other way for the
+glyph. In the pack's own colours, the glyph colour has to be known at draw time, so the generator exports one colour
+resource per glyph (`glyph_camera`, ...) and the renderer swaps that with the dark background colour.
+
+Two details: put a signature of the colours and the swap flag in the cache file name (so a new wallpaper or a swap makes a new file), and leave PNG
 shapes untinted, since tinting would flatten them.
 
 For launchers that recolour packs themselves (Lawnchair), ship single-colour glyphs (`mono_*.xml`, white) and a

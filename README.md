@@ -54,6 +54,9 @@ instead of the pack's own colours. Needs Android 12 or newer.
   and let Lawnchair colour them. This part is built but not tested yet.
 - **Other launchers** show the fixed icons as before.
 
+**Swap colors** (next to the colour choice) flips background and glyph: a light shape with a dark glyph instead of a dark
+shape with a light glyph. It works in Original and Material You, and like those it only changes live in Smart Launcher.
+
 ## Works with
 
 | Launcher | Shape changes | How you apply it |

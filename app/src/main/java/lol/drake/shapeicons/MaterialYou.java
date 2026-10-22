@@ -24,8 +24,8 @@ final class MaterialYou {
     }
 
     /** Short value that changes whenever the palette changes, used in cache file names (0 = not themed). */
-    static String signature(Context c, int colorMode) {
+    static String signature(Context c, int colorMode, boolean swap) {
         MaterialYou m = colorMode == 1 ? current(c) : null;
-        return m == null ? "0" : Integer.toHexString(m.background * 31 + m.glyph);
+        return (m == null ? "0" : Integer.toHexString(m.background * 31 + m.glyph)) + (swap ? "s" : "");
     }
 }

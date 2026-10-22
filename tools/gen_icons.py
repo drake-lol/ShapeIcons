@@ -234,6 +234,8 @@ for g, comps in APPS.items():
 write(RES / "main/res/xml/grayscale_icon_map.xml", '<?xml version="1.0" encoding="utf-8"?>\n<icons>\n' +
       "".join(f'    <icon package="{pkg}" drawable="@drawable/mono_{g}"/>\n' for pkg, g in sorted(gm.items())) + '</icons>\n')
 
+write(RES / "main/res/values/glyph_colors.xml", '<?xml version="1.0" encoding="utf-8"?>\n<resources>\n' +
+      "".join(f'    <color name="glyph_{n}">{c}</color>\n' for n, (c, _) in GLYPHS.items()) + '</resources>\n')
 write(RES / "main/res/values/shapes.xml", '<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <string-array name="shapes">\n' +
       "".join(f"        <item>{n}</item>\n" for n in ALL_SHAPES) + "    </string-array>\n</resources>\n")
 write(RES / "main/res/values/shape.xml",

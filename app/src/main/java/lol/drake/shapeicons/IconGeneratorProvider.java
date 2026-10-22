@@ -92,13 +92,15 @@ public class IconGeneratorProvider extends ContentProvider {
             if (!IconPrefs.isShape(c, shape)) shape = prefs.shape();
             String colorOverride = cfg.optString("colors", "");                // optional override (testing / baking): original | material_you
             int colorMode = colorOverride.equals("material_you") ? 1 : colorOverride.equals("original") ? 0 : prefs.colors();
+            String swapOverride = cfg.optString("swap", "");
+            boolean swap = swapOverride.equals("true") ? true : swapOverride.equals("false") ? false : prefs.swap();
             Bitmap out = IconRenderer.render(c, cfg.optString("packageName", null), cfg.optString("activityName", null),
-                    cfg.optInt("action", -1), input, shape, shape.equals(prefs.shape()) ? prefs.sizeScale() : 1f, px, colorMode);
+                    cfg.optInt("action", -1), input, shape, shape.equals(prefs.shape()) ? prefs.sizeScale() : 1f, px, colorMode, swap);
             if (out == null) return null;
 
             File d = dir("gen_out");
             CacheFiles.prune(d);
-            String name = safe(uri.getQueryParameter("output")) + "_v" + prefs.version() + "_" + shape + "_" + MaterialYou.signature(c, colorMode) + ".png";
+            String name = safe(uri.getQueryParameter("output")) + "_v" + prefs.version() + "_" + shape + "_" + MaterialYou.signature(c, colorMode, swap) + ".png";
             File f = new File(d, name), tmp = new File(d, name + ".tmp");
             try (FileOutputStream os = new FileOutputStream(tmp)) {                 // write then rename: readers never see half a PNG
                 if (!out.compress(Bitmap.CompressFormat.PNG, 100, os)) return null;

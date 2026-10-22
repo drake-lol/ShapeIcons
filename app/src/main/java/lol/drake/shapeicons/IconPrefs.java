@@ -26,12 +26,14 @@ public final class IconPrefs {
     public float sizeScale() { return SIZE_SCALES[Math.max(0, Math.min(size(), SIZE_SCALES.length - 1))]; }
     /** 0 = the pack's own colours, 1 = Material You (colours taken from the system palette when the icon is drawn). */
     public int colors() { return Math.max(0, Math.min(sp.getInt("colors", 0), COLOR_NAMES.length - 1)); }
+    /** Swap background and glyph colours (works in both colour modes). */
+    public boolean swap() { return sp.getBoolean("swap", false); }
     public int version() { return sp.getInt("version", 1); }
 
-    public void set(String shape, int size, int colors) {
+    public void set(String shape, int size, int colors, boolean swap) {
         colors = Math.max(0, Math.min(colors, COLOR_NAMES.length - 1));
         if (!isShape(ctx, shape)) shape = shapes(ctx)[0];
         size = Math.max(0, Math.min(size, SIZE_SCALES.length - 1));
-        sp.edit().putString("shape", shape).putInt("size", size).putInt("colors", colors).putInt("version", version() + 1).apply();
+        sp.edit().putString("shape", shape).putInt("size", size).putInt("colors", colors).putBoolean("swap", swap).putInt("version", version() + 1).apply();
     }
 }

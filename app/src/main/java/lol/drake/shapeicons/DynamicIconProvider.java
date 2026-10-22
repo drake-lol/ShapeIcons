@@ -33,10 +33,10 @@ public class DynamicIconProvider extends ContentProvider {
     public static Uri iconUri(String pkg, int px) { return BASE.buildUpon().appendPath("icon").appendPath(pkg).appendQueryParameter("size", "" + px).build(); }
 
     /** Saves the choice and tells everyone listening (observers + broadcast) that cached icons are stale. */
-    public static void apply(Context c, String shape, int size, int colors) {
-        new IconPrefs(c).set(shape, size, colors);
+    public static void apply(Context c, String shape, int size, int colors, boolean swap) {
+        new IconPrefs(c).set(shape, size, colors, swap);
         c.getContentResolver().notifyChange(BASE, null);
-        c.sendBroadcast(new Intent(ACTION_CHANGED).putExtra("shape", shape).putExtra("size", size).putExtra("colors", colors));  // implicit: reaches runtime receivers
+        c.sendBroadcast(new Intent(ACTION_CHANGED).putExtra("shape", shape).putExtra("size", size).putExtra("colors", colors).putExtra("swap", swap));  // implicit: reaches runtime receivers
         IconGeneratorProvider.requestUpdate(c);                                                        // Smart Launcher handshake
     }
 
@@ -54,11 +54,11 @@ public class DynamicIconProvider extends ContentProvider {
         Context c = getContext();
         IconPrefs prefs = new IconPrefs(c);
         File dir = new File(c.getCacheDir(), "icons");
-        File f = new File(dir, prefs.version() + "_" + px + "_" + MaterialYou.signature(c, prefs.colors()) + "_" + pkg + ".png");
+        File f = new File(dir, prefs.version() + "_" + px + "_" + MaterialYou.signature(c, prefs.colors(), prefs.swap()) + "_" + pkg + ".png");
         if (!f.exists()) {
             Bitmap b;
             try {
-                b = IconRenderer.render(c, pkg, null, -1, null, prefs.shape(), prefs.sizeScale(), px, prefs.colors());
+                b = IconRenderer.render(c, pkg, null, -1, null, prefs.shape(), prefs.sizeScale(), px, prefs.colors(), prefs.swap());
             } catch (Throwable t) {
                 throw new FileNotFoundException("render failed: " + t);
             }

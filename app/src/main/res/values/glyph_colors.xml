@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="glyph_phone">#5BE3A0</color>
+    <color name="glyph_messages">#6CB4FF</color>
+    <color name="glyph_camera">#FF7A8A</color>
+    <color name="glyph_gallery">#FFC857</color>
+    <color name="glyph_browser">#7DD3FC</color>
+    <color name="glyph_music">#C4A1FF</color>
+    <color name="glyph_mail">#FF9E7A</color>
+    <color name="glyph_calendar">#FF6B6B</color>
+    <color name="glyph_clock">#FFD166</color>
+    <color name="glyph_settings">#B8C0CC</color>
+    <color name="glyph_maps">#5BE3A0</color>
+    <color name="glyph_files">#FFC857</color>
+    <color name="glyph_video">#FF5D5D</color>
+    <color name="glyph_store">#6CB4FF</color>
+    <color name="glyph_contacts">#7DD3FC</color>
+    <color name="glyph_calc">#C4A1FF</color>
+    <color name="glyph_star">#FFD166</color>
+    <color name="glyph_pack">#FFFFFF</color>
+</resources>
