@@ -1,5 +1,10 @@
 # Shape Icons
 
+**Quick links:** [Install and use](#install-and-use) · [Works with](#works-with) · [Build](#build) · [Make it yours](#make-it-yours) ·
+[Launchers](docs/launchers.md) · [How it works](docs/how-it-works.md) ·
+[Build the shape selector into your own pack](docs/implementing-shape-selector.md) · [Customizing](docs/customizing.md) ·
+[Troubleshooting](docs/troubleshooting.md) · [Launcher notes](docs/notes/)
+
 An Android **icon pack** where you choose the shape behind every icon (circle, squircle, flower, hexagon, diamond, or
 your own PNG). The icons themselves are simple line glyphs; the background shape is swappable.
 
