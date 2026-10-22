@@ -62,6 +62,7 @@ The APK is `app/build/outputs/apk/debug/app-debug.apk`.
 
 - [Which launchers, how to apply each](docs/launchers.md)
 - [How it works](docs/how-it-works.md)
+- [How the shape selector works, and how to add it to your own icon pack](docs/implementing-shape-selector.md)
 - [Customizing](docs/customizing.md)
 - [Troubleshooting](docs/troubleshooting.md)
 - [Reverse-engineering notes per launcher](docs/notes/) (for the curious)
