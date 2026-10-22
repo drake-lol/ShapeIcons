@@ -12,7 +12,7 @@
 
 Edit GLYPHS / APPS / SHAPES, rerun, rebuild. Nothing else needs touching.
 """
-import argparse, math, pathlib
+import argparse, math, pathlib, re, shutil, subprocess, sys, tempfile
 
 RES = pathlib.Path(__file__).resolve().parent.parent / "app/src"
 C, R = 54.0, 48.0          # canvas center / shape radius (canvas is 108)
@@ -131,17 +131,33 @@ def vector(body):
             '    android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">\n'
             f'{body}</vector>\n')
 
+# PNG backgrounds: every shapes/<name>.png (square, any size, transparent corners welcome) becomes one more shape.
+CUSTOM_DIR = pathlib.Path(__file__).resolve().parent.parent / "shapes"
+CUSTOM = {f.stem.lower(): f for f in sorted(CUSTOM_DIR.glob("*.png")) if re.fullmatch(r"[a-z][a-z0-9_]*", f.stem.lower())}
+for bad in CUSTOM_DIR.glob("*.png"):
+    if bad.stem.lower() not in CUSTOM:
+        print(f"warning: shapes/{bad.name} ignored (name must be letters, digits, underscore, starting with a letter)")
+ALL_SHAPES = sorted(set(SHAPES) | set(CUSTOM))
+
 ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-ap.add_argument("--shape", default="flower", choices=sorted(SHAPES),
+ap.add_argument("--shape", default="flower", choices=ALL_SHAPES,
                 help="shape baked into the STATIC fallback (appfilter.xml / icon_*). Theme Park and other snapshot-style "
                      "consumers can't use the dynamic providers, so this is the shape they get.")
 DEFAULT_SHAPE = ap.parse_args().shape
+for old in (RES / "main/res/drawable-nodpi").glob("shape_*.png"):
+    old.unlink()                                                  # removed custom shapes must not linger
+for name, src in CUSTOM.items():
+    dst = RES / f"main/res/drawable-nodpi/shape_{name}.png"
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    subprocess.run(["magick", str(src), "-resize", "432x432", "-background", "none", "-gravity", "center", "-extent", "432x432", str(dst)], check=True)
 icon_svgs = {}
 for name, d in SHAPES.items():
     v = vector(f'    <path android:fillColor="{BG_FILL}" android:pathData="{d}"/>\n')
     write(RES / f"main/res/drawable/shape_{name}.xml", v)
     if name == DEFAULT_SHAPE:
         write(RES / "main/res/drawable/shape_bg.xml", v)
+if DEFAULT_SHAPE in CUSTOM:
+    write(RES / "main/res/drawable/shape_bg.xml", vector(f'    <path android:fillColor="{BG_FILL}" android:pathData="{SHAPES["circle"]}"/>\n'))
 
 for name, (color, parts) in GLYPHS.items():
     body = f'    <group android:translateX="{OFF}" android:translateY="{OFF}" android:scaleX="{S}" android:scaleY="{S}">\n'
@@ -169,16 +185,34 @@ def glyph_svg(color, parts):
     return body + "</g>"
 
 def render_png(name, color, parts, out_path, px=192):
+    custom = DEFAULT_SHAPE in CUSTOM
+    bg = '<rect width="108" height="108" fill="#000" fill-opacity="0.01"/>' if custom else f'<path fill="{BG_FILL}" d="{SHAPES[DEFAULT_SHAPE]}"/>'
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="108" height="108">'
-           f'<path fill="{BG_FILL}" d="{SHAPES[DEFAULT_SHAPE]}"/>{glyph_svg(color, parts)}</svg>')
+           f'{bg}{glyph_svg(color, parts)}</svg>')
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile("w", suffix=".svg", delete=False) as f:
         f.write(svg)
-    subprocess.run(["magick", "-background", "none", "-density", str(72 * px // 108 * 4), f.name, "-trim", "+repage", "-resize", f"{px}x{px}", "-gravity", "center", "-background", "none", "-extent", f"{px}x{px}", str(out_path)], check=True)   # trim: shape fills the bitmap
+    density = str(72 * px // 108 * 4)
+    try:
+        if custom:     # PNG background as-is, glyph on top (two steps: magick's parenthesised form drops the background)
+            glyph_png = f.name + ".png"
+            subprocess.run(["magick", "-background", "none", "-density", density, f.name, "-resize", f"{px}x{px}", glyph_png], check=True)
+            subprocess.run(["magick", str(CUSTOM[DEFAULT_SHAPE]), "-background", "none", "-resize", f"{px}x{px}", "-gravity", "center",
+                            "-extent", f"{px}x{px}", glyph_png, "-composite", str(out_path)], check=True)
+            pathlib.Path(glyph_png).unlink(missing_ok=True)
+        else:          # trim: the vector shape fills the bitmap
+            subprocess.run(["magick", "-background", "none", "-density", density, f.name, "-trim", "+repage", "-resize", f"{px}x{px}",
+                            "-gravity", "center", "-background", "none", "-extent", f"{px}x{px}", str(out_path)], check=True)
+    except FileNotFoundError:
+        sys.exit("ImageMagick ('magick') is required: install it (e.g. sudo pacman -S imagemagick) and rerun.")
+    finally:
+        pathlib.Path(f.name).unlink(missing_ok=True)
 
 for name, (color, parts) in icon_svgs.items():
     render_png(name, color, parts, RES / f"main/res/drawable-nodpi/icon_{name}.png")
 
+write(RES / "main/res/values/shapes.xml", '<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <string-array name="shapes">\n' +
+      "".join(f"        <item>{n}</item>\n" for n in ALL_SHAPES) + "    </string-array>\n</resources>\n")
 write(RES / "main/res/values/shape.xml",
       f'<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <string name="baked_shape">{DEFAULT_SHAPE}</string>\n</resources>\n')
 write(RES / "main/res/values/colors.xml",
@@ -234,4 +268,4 @@ write(RES / "main/res/xml/drawable.xml", '<?xml version="1.0" encoding="utf-8"?>
       "".join(f'    <item drawable="icon_{n}"/>\n' for n in icons) +
       ('    <category title="Your apps"/>\n' + "".join(f'    <item drawable="{n}"/>\n' for _, n in sorted(auto_index.items()) if (AUTO / f"{n}.png").exists()) if auto_index else "") +
       '</resources>\n')
-print(f"{len(SHAPES)} shapes, {len(GLYPHS)} glyphs, {sum(map(len, APPS.values()))} component mappings")
+print(f"{len(ALL_SHAPES)} shapes ({len(CUSTOM)} PNG), {len(GLYPHS)} glyphs, {sum(map(len, APPS.values()))} component mappings")

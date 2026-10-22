@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="shapes">
+        <item>circle</item>
+        <item>diamond</item>
+        <item>flower</item>
+        <item>glassy</item>
+        <item>hexagon</item>
+        <item>squircle</item>
+    </string-array>
+</resources>

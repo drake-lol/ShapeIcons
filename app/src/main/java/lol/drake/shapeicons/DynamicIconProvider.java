@@ -47,6 +47,7 @@ public class DynamicIconProvider extends ContentProvider {
         List<String> seg = uri.getPathSegments();
         if (seg.size() != 2 || !seg.get(0).equals("icon") || !mode.equals("r")) throw new FileNotFoundException(uri.toString());
         String pkg = seg.get(1);
+        if (!pkg.matches("[A-Za-z0-9._]{1,200}")) throw new FileNotFoundException("bad package");
         int px = 192;
         try { px = Math.max(48, Math.min(512, Integer.parseInt(uri.getQueryParameter("size")))); } catch (Exception ignored) { }
 
@@ -55,10 +56,16 @@ public class DynamicIconProvider extends ContentProvider {
         File dir = new File(c.getCacheDir(), "icons");
         File f = new File(dir, prefs.version() + "_" + px + "_" + pkg + ".png");
         if (!f.exists()) {
-            Bitmap b = IconRenderer.render(c, pkg, prefs.shape(), prefs.sizeScale(), px);
+            Bitmap b;
+            try {
+                b = IconRenderer.render(c, pkg, prefs.shape(), prefs.sizeScale(), px);
+            } catch (Throwable t) {
+                throw new FileNotFoundException("render failed: " + t);
+            }
             if (b == null) throw new FileNotFoundException("no icon for " + pkg);
-            dir.mkdirs();
+            if (!dir.isDirectory() && !dir.mkdirs()) throw new FileNotFoundException("no cache dir");
             pruneOld(dir, prefs.version());
+            CacheFiles.prune(dir);
             File tmp = new File(dir, f.getName() + ".tmp");
             try (FileOutputStream out = new FileOutputStream(tmp)) {
                 b.compress(Bitmap.CompressFormat.PNG, 100, out);

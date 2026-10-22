@@ -44,11 +44,11 @@ public class MainActivity extends Activity {
         root.setBackgroundColor(0xFF12141A);
 
         root.addView(text("Shape Icons", 28, 0xFFFFFFFF, true));
-        root.addView(text("Pick a shape. Smart Launcher updates live. Lawnchair, Nova, Theme Park etc. show the pack's built-in shape (flower; change with tools/gen_icons.py --shape and rebuild).", 14, 0xFF9AA3B2, false));
+        root.addView(text("Pick a shape. Smart Launcher updates live. Lawnchair, Nova, Theme Park etc. show the pack's built-in shape (flower; change it with ./build.sh --shape).", 14, 0xFF9AA3B2, false));
 
         root.addView(text("Shape", 16, 0xFFFFFFFF, true));
         LinearLayout shapes = row();
-        for (String s : IconPrefs.SHAPES) shapes.addView(chip(s, shapeButtons, () -> choose(s, prefs.size())));
+        for (String s : IconPrefs.shapes(this)) shapes.addView(chip(s, shapeButtons, () -> choose(s, prefs.size())));
         root.addView(scroll(shapes));
 
         root.addView(text("Icon size", 16, 0xFFFFFFFF, true));
@@ -149,7 +149,7 @@ public class MainActivity extends Activity {
     }
 
     private void refresh() {
-        for (int i = 0; i < shapeButtons.size(); i++) mark(shapeButtons.get(i), IconPrefs.SHAPES[i].equals(prefs.shape()));
+        for (int i = 0; i < shapeButtons.size(); i++) mark(shapeButtons.get(i), IconPrefs.shapes(this)[i].equals(prefs.shape()));
         for (int i = 0; i < sizeButtons.size(); i++) mark(sizeButtons.get(i), i == prefs.size());
         final int px = cell, version = prefs.version();
         new Thread(() -> {

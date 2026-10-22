@@ -38,58 +38,74 @@ public class IconGeneratorProvider extends ContentProvider {
 
     @Override public boolean onCreate() { return true; }
 
-    private File dir(String name) {
-        File d = new File(getContext().getCacheDir(), name);
-        d.mkdirs();
-        return d;
-    }
+    private File dir(String name) { return CacheFiles.dir(getContext(), name); }
 
-    /** Only plain file names: the launcher controls these strings. */
-    private static String safe(String n) throws FileNotFoundException {
-        if (n == null || !n.matches("[A-Za-z0-9._-]{1,128}") || n.contains("..")) throw new FileNotFoundException("bad name");
-        return n;
-    }
+    private static String safe(String n) throws FileNotFoundException { return CacheFiles.safe(n); }
 
     @Override
     public ParcelFileDescriptor openFile(Uri uri, String mode) throws FileNotFoundException {
-        String first = uri.getPathSegments().isEmpty() ? "" : uri.getPathSegments().get(0);
-        if (first.equals("icon") && mode.contains("w")) {                                   // launcher uploads the source icon
-            File f = new File(dir("gen_in"), safe(uri.getQueryParameter("input")));
-            return ParcelFileDescriptor.open(f, ParcelFileDescriptor.MODE_WRITE_ONLY | ParcelFileDescriptor.MODE_CREATE | ParcelFileDescriptor.MODE_TRUNCATE);
-        }
-        if (first.equals("result") && uri.getPathSegments().size() == 2 && mode.equals("r")) {   // launcher downloads the result
-            return ParcelFileDescriptor.open(new File(dir("gen_out"), safe(uri.getPathSegments().get(1))), ParcelFileDescriptor.MODE_READ_ONLY);
+        try {
+            String first = uri.getPathSegments().isEmpty() ? "" : uri.getPathSegments().get(0);
+            if (first.equals("icon") && mode.contains("w")) {                                   // launcher uploads the source icon
+                File d = dir("gen_in");
+                CacheFiles.prune(d);
+                File f = new File(d, safe(uri.getQueryParameter("input")));
+                return ParcelFileDescriptor.open(f, ParcelFileDescriptor.MODE_WRITE_ONLY | ParcelFileDescriptor.MODE_CREATE | ParcelFileDescriptor.MODE_TRUNCATE);
+            }
+            if (first.equals("result") && uri.getPathSegments().size() == 2 && mode.equals("r")) {   // launcher downloads the result
+                return ParcelFileDescriptor.open(new File(dir("gen_out"), safe(uri.getPathSegments().get(1))), ParcelFileDescriptor.MODE_READ_ONLY);
+            }
+        } catch (FileNotFoundException e) {
+            throw e;
+        } catch (RuntimeException e) {
+            throw new FileNotFoundException(String.valueOf(e));
         }
         throw new FileNotFoundException(uri.toString());
+    }
+
+    /** Decodes a launcher-supplied PNG, refusing anything absurdly large (it is untrusted input). */
+    private static Bitmap decodeSafely(File f) {
+        if (!f.isFile() || f.length() > 8L * 1024 * 1024) return null;
+        BitmapFactory.Options o = new BitmapFactory.Options();
+        o.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(f.getPath(), o);
+        if (o.outWidth <= 0 || o.outHeight <= 0 || o.outWidth > 2048 || o.outHeight > 2048) return null;
+        return BitmapFactory.decodeFile(f.getPath());
     }
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] args, String sort) {
         try {
-            String json = args != null && args.length > 0 ? args[0] : selection;      // `adb shell content query --where` fallback
-            JSONObject root = new JSONObject(json);
-            JSONObject cfg = root.getJSONObject("config");
             Context c = getContext();
+            if (c == null) return null;
+            String json = args != null && args.length > 0 ? args[0] : selection;      // `adb shell content query --where` fallback
+            if (json == null || json.length() > 16 * 1024) return null;
+            JSONObject cfg = new JSONObject(json).getJSONObject("config");
             IconPrefs prefs = new IconPrefs(c);
 
             int px = Math.max(48, Math.min(512, cfg.optInt("size", 192)));
             Bitmap input = null;
-            String in = cfg.optString("inputFileName", null);
-            if (in != null && in.matches("[A-Za-z0-9._-]{1,128}")) input = BitmapFactory.decodeFile(new File(dir("gen_in"), in).getPath());
+            String in = cfg.optString("inputFileName", "");
+            if (in.matches("[A-Za-z0-9._-]{1,128}")) input = decodeSafely(new File(dir("gen_in"), in));
 
             String shape = cfg.optString("shape", "");                       // optional override (used by tools/bake_installed.py)
-            if (!java.util.Arrays.asList(IconPrefs.SHAPES).contains(shape)) shape = prefs.shape();
+            if (!IconPrefs.isShape(c, shape)) shape = prefs.shape();
             Bitmap out = IconRenderer.render(c, cfg.optString("packageName", null), cfg.optString("activityName", null),
                     cfg.optInt("action", -1), input, shape, shape.equals(prefs.shape()) ? prefs.sizeScale() : 1f, px);
             if (out == null) return null;
 
+            File d = dir("gen_out");
+            CacheFiles.prune(d);
             String name = safe(uri.getQueryParameter("output")) + "_v" + prefs.version() + "_" + shape + ".png";
-            File f = new File(dir("gen_out"), name);
-            try (FileOutputStream os = new FileOutputStream(f)) { out.compress(Bitmap.CompressFormat.PNG, 100, os); }
+            File f = new File(d, name), tmp = new File(d, name + ".tmp");
+            try (FileOutputStream os = new FileOutputStream(tmp)) {                 // write then rename: readers never see half a PNG
+                if (!out.compress(Bitmap.CompressFormat.PNG, 100, os)) return null;
+            }
+            if (!tmp.renameTo(f)) return null;
             MatrixCursor cur = new MatrixCursor(new String[]{"fileuri"});
             cur.addRow(new Object[]{BASE.buildUpon().appendPath("result").appendPath(name).build().toString()});
             return cur;
-        } catch (Exception e) {
+        } catch (Throwable e) {                                                      // incl. OutOfMemoryError: never crash the provider
             android.util.Log.e("IconGenerator", "query failed", e);
             return null;
         }
